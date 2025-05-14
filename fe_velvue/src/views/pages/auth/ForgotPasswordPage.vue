@@ -50,35 +50,48 @@ async function submitForgotPassword() {
     <AuthLogo text="Forgot your password?" />
 
     <!-- Success message -->
-    <div v-if="serverMessage" class="mb-4">
-      <Message severity="success" icon="pi pi-check-circle">
+    <div
+      v-if="serverMessage"
+      class="mb-4"
+    >
+      <Message
+        severity="success"
+        icon="pi pi-check-circle"
+      >
         {{ serverMessage }}
       </Message>
     </div>
 
     <!-- Server error -->
-    <div v-if="serverErrors" class="mb-4">
+    <div
+      v-if="serverErrors"
+      class="mb-4"
+    >
       <Message
-        severity="error"
-        icon="pi pi-exclamation-circle"
         v-for="(error, key) in serverErrors"
         :key="key"
+        severity="error"
+        icon="pi pi-exclamation-circle"
       >
         {{ error.message }}
       </Message>
     </div>
 
     <!-- Email field -->
-    <ValidFormElement :label="'Email'" :error="errors?.email" name="emailInput">
+    <ValidFormElement
+      :label="'Email'"
+      :error="errors?.email"
+      name="emailInput"
+    >
       <InputText
         id="emailInput"
+        v-model="emailField"
         type="text"
         placeholder="Email address"
         class="w-full mb-2"
-        v-model="emailField"
+        :invalid="errors?.email ? true : false"
         @input="errors.email = null"
         @keydown.enter="submitForgotPassword"
-        :invalid="errors?.email ? true : false"
       />
     </ValidFormElement>
 

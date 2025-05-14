@@ -85,47 +85,67 @@ function googleLogin() {
     <SocialLoginButton
       provider="google"
       label="Sign up with Google"
-      iconUrl="/demo/images/google-icon.svg"
+      icon-url="/demo/images/google-icon.svg"
       @click="googleLogin"
     />
 
     <DividerOr />
 
     <!-- General Error -->
-    <div v-if="errors?.general" class="mb-4">
-      <Message severity="error" icon="pi pi-exclamation-circle">
+    <div
+      v-if="errors?.general"
+      class="mb-4"
+    >
+      <Message
+        severity="error"
+        icon="pi pi-exclamation-circle"
+      >
         {{ errors.general }}
       </Message>
     </div>
 
     <!-- Success message -->
-    <div v-if="successMessage" class="mb-4">
-      <Message severity="success" icon="pi pi-check-circle">
+    <div
+      v-if="successMessage"
+      class="mb-4"
+    >
+      <Message
+        severity="success"
+        icon="pi pi-check-circle"
+      >
         {{ successMessage }}
       </Message>
     </div>
 
     <!-- Name -->
-    <ValidFormElement :label="'Name'" :error="errors?.name" name="nameInput">
+    <ValidFormElement
+      :label="'Name'"
+      :error="errors?.name"
+      name="nameInput"
+    >
       <InputText
         id="nameInput"
+        v-model="nameField"
         type="text"
         placeholder="Your Name"
         class="w-full mb-2"
-        v-model="nameField"
         :invalid="errors?.name"
         @input="errors.name = null"
       />
     </ValidFormElement>
 
     <!-- Email -->
-    <ValidFormElement :label="'Email'" :error="errors?.email" name="emailInput">
+    <ValidFormElement
+      :label="'Email'"
+      :error="errors?.email"
+      name="emailInput"
+    >
       <InputText
         id="emailInput"
+        v-model="emailField"
         type="text"
         placeholder="Email address"
         class="w-full mb-2"
-        v-model="emailField"
         :invalid="errors?.email"
         @input="errors.email = null"
       />
@@ -141,7 +161,7 @@ function googleLogin() {
         id="password1"
         v-model="passwordField"
         placeholder="Password"
-        :toggleMask="true"
+        :toggle-mask="true"
         fluid
         :feedback="false"
         class="mb-2"
@@ -160,7 +180,7 @@ function googleLogin() {
         id="password2"
         v-model="passwordConfirmField"
         placeholder="Confirm Password"
-        :toggleMask="true"
+        :toggle-mask="true"
         fluid
         :feedback="false"
         class="mb-4"

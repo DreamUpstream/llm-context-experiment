@@ -1,7 +1,11 @@
 <template>
   <div class="flex items-center justify-center min-h-screen overflow-hidden">
     <div class="flex flex-col items-center justify-center">
-      <img src="/demo/images/logo.png" alt="velvue" class="w-60" />
+      <img
+        src="/demo/images/logo.png"
+        alt="velvue"
+        class="w-60"
+      >
       <div
         style="
           border-radius: 56px;
@@ -26,7 +30,11 @@
           <div class="text-surface-600 dark:text-surface-200 mb-8">
             Requested resource is not available.
           </div>
-          <Button as="router-link" label="Go to Dashboard" to="/" />
+          <Button
+            as="router-link"
+            label="Go to Dashboard"
+            to="/"
+          />
         </div>
       </div>
     </div>

@@ -46,14 +46,16 @@ const { activeTitle, layoutConfig, isSidebarActive, toggleMenu } = useLayout();
         >
           <!-- Hamburger button -->
           <button
+            v-if="isSidebarVisible"
             class="p-link mr-4 p-2 px-3 inline-flex items-center justify-center border border-gray-200 rounded-lg"
             @click="toggleMenu"
-            v-if="isSidebarVisible"
           >
-            <i class="pi pi-bars text-xl"></i>
+            <i class="pi pi-bars text-xl" />
           </button>
 
-          <h1 class="text-xl font-semibold">{{ activeTitle }}</h1>
+          <h1 class="text-xl font-semibold">
+            {{ activeTitle }}
+          </h1>
           <user-menu />
         </div>
         <router-view />
@@ -61,7 +63,11 @@ const { activeTitle, layoutConfig, isSidebarActive, toggleMenu } = useLayout();
     </div>
 
     <!-- Overlay Mask (click anywhere outside to close) -->
-    <div class="layout-mask" @click="toggleMenu" v-if="isSidebarActive"></div>
+    <div
+      v-if="isSidebarActive"
+      class="layout-mask"
+      @click="toggleMenu"
+    />
   </div>
 </template>
 

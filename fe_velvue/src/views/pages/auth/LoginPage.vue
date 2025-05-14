@@ -71,27 +71,37 @@ function googleLogin() {
     <SocialLoginButton
       provider="google"
       label="Sign in with Google"
-      iconUrl="/demo/images/google-icon.svg"
+      icon-url="/demo/images/google-icon.svg"
       @click="googleLogin"
     />
 
     <DividerOr />
 
     <!-- General Error -->
-    <div v-if="errors?.general" class="mb-4">
-      <Message severity="error" icon="pi pi-exclamation-circle">
+    <div
+      v-if="errors?.general"
+      class="mb-4"
+    >
+      <Message
+        severity="error"
+        icon="pi pi-exclamation-circle"
+      >
         {{ errors.general }}
       </Message>
     </div>
 
     <!-- Email -->
-    <ValidFormElement :label="'Email'" :error="errors?.email" name="email">
+    <ValidFormElement
+      :label="'Email'"
+      :error="errors?.email"
+      name="email"
+    >
       <InputText
         id="email"
+        v-model="email"
         type="text"
         placeholder="Email address"
         class="w-full mb-2"
-        v-model="email"
         :invalid="errors?.email"
         @keydown.enter="submitForm"
         @input="errors.email = null"
@@ -108,12 +118,12 @@ function googleLogin() {
         id="password"
         v-model="password"
         placeholder="Password"
-        :toggleMask="true"
+        :toggle-mask="true"
         class="mb-2"
         fluid
         :feedback="false"
-        @keydown.enter="submitForm"
         :invalid="errors?.password"
+        @keydown.enter="submitForm"
         @input="errors.password = null"
       />
     </ValidFormElement>
@@ -121,12 +131,20 @@ function googleLogin() {
     <!-- Remember & Forgot -->
     <div class="flex items-center justify-between mt-2 mb-8 gap-8">
       <div class="flex items-center">
-        <Checkbox v-model="remember" id="rememberme" binary class="mr-2" />
+        <Checkbox
+          id="rememberme"
+          v-model="remember"
+          binary
+          class="mr-2"
+        />
         <label for="rememberme">Remember me</label>
       </div>
-      <router-link to="/auth/forgot-password" class="font-medium text-primary"
-        >Forgot password?</router-link
+      <router-link
+        to="/auth/forgot-password"
+        class="font-medium text-primary"
       >
+        Forgot password?
+      </router-link>
     </div>
 
     <!-- Submit -->
@@ -134,8 +152,8 @@ function googleLogin() {
       label="Sign In"
       class="w-full mb-4"
       :loading="loading"
-      @click="submitForm"
       :disabled="loading || !email || !password"
+      @click="submitForm"
     />
 
     <!-- Register link -->

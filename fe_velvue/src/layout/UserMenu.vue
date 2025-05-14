@@ -48,14 +48,14 @@ watch(
   <div class="relative user-menu-container">
     <!-- Clickable Avatar/Name -->
     <button
-      @click="toggleMenu"
       :class="
         isOpen
           ? `flex items-center gap-2 px-4 py-2 rounded-full hover:bg-gray-100 border border-gray-200 shadow-lg`
           : `flex items-center gap-2 px-4 py-2 rounded-full hover:bg-gray-100 border border-gray-200`
       "
+      @click="toggleMenu"
     >
-      <i class="pi pi-bars"></i>
+      <i class="pi pi-bars" />
       <Avatar
         icon="pi pi-user rounded"
         :image="authStore.user?.avatar"
@@ -81,10 +81,10 @@ watch(
       >
         Help Center
       </router-link>
-      <hr class="my-1" />
+      <hr class="my-1">
       <button
-        @click="logout"
         class="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
+        @click="logout"
       >
         Logout
       </button>

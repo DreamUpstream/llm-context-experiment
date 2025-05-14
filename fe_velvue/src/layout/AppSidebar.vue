@@ -21,17 +21,17 @@ function logout() {
         alt="Velvue"
         class="mx-auto mb-4"
         style="max-width: 120px"
-      />
+      >
       <app-menu class="border-t border-surface-border" />
     </div>
 
     <!-- Bottom: logout button -->
     <div class="p-4 border-t border-surface-border hover:bg-gray-100">
       <button
-        @click="logout"
         class="w-full flex items-center gap-2 p-2 rounded"
+        @click="logout"
       >
-        <i class="pi pi-sign-out"></i>
+        <i class="pi pi-sign-out" />
         <span>Logout</span>
       </button>
     </div>

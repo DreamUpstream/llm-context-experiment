@@ -152,7 +152,9 @@ const filtersBilling = ref({
 <template>
   <ConfirmDialog />
   <div class="card p-6 card-container">
-    <h2 class="text-2xl font-semibold mb-4">Account Settings</h2>
+    <h2 class="text-2xl font-semibold mb-4">
+      Account Settings
+    </h2>
 
     <Message
       v-if="successMessage"
@@ -196,10 +198,10 @@ const filtersBilling = ref({
               auto
               name="profileImage"
               accept="image/*"
-              chooseLabel="Change Picture"
-              customUpload
-              @uploader="uploadProfileImage"
+              choose-label="Change Picture"
+              custom-upload
               :disabled="uploadingImage"
+              @uploader="uploadProfileImage"
             />
           </div>
 
@@ -207,11 +209,18 @@ const filtersBilling = ref({
           <div class="col-span-12 md:col-span-8">
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Name</label>
-              <InputText v-model="nameField" class="w-full" />
+              <InputText
+                v-model="nameField"
+                class="w-full"
+              />
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Email</label>
-              <InputText v-model="emailField" type="email" class="w-full" />
+              <InputText
+                v-model="emailField"
+                type="email"
+                class="w-full"
+              />
             </div>
             <Button
               label="Save Changes"
@@ -227,20 +236,34 @@ const filtersBilling = ref({
         <DataTable
           :value="activityLog"
           :filters="filtersActivity"
-          dataKey="date"
+          data-key="date"
           :paginator="true"
           :rows="5"
-          tableStyle="min-width: 20rem"
+          table-style="min-width: 20rem"
         >
           <template #header>
             <div class="flex justify-between gap-2 mt-6">
-              <h5 class="m-0 text-lg font-semibold">Recent Logins</h5>
+              <h5 class="m-0 text-lg font-semibold">
+                Recent Logins
+              </h5>
             </div>
           </template>
 
-          <Column field="date" header="Date/Time" sortable />
-          <Column field="ip" header="IP Address" sortable />
-          <Column field="location" header="Location" sortable />
+          <Column
+            field="date"
+            header="Date/Time"
+            sortable
+          />
+          <Column
+            field="ip"
+            header="IP Address"
+            sortable
+          />
+          <Column
+            field="location"
+            header="Location"
+            sortable
+          />
         </DataTable>
       </TabPanel>
 
@@ -248,31 +271,43 @@ const filtersBilling = ref({
       <TabPanel header="Payment Methods">
         <DataTable
           :value="paymentMethods"
-          dataKey="type"
+          data-key="type"
           :filters="filtersPayment"
           :paginator="true"
           :rows="5"
-          tableStyle="min-width: 20rem"
+          table-style="min-width: 20rem"
         >
           <template #header>
             <div class="flex justify-between gap-2 mt-6">
-              <h5 class="m-0 text-lg font-semibold">Your Saved Cards</h5>
+              <h5 class="m-0 text-lg font-semibold">
+                Your Saved Cards
+              </h5>
             </div>
           </template>
 
-          <Column field="type" header="Card" />
-          <Column field="expires" header="Expiry" />
+          <Column
+            field="type"
+            header="Card"
+          />
+          <Column
+            field="expires"
+            header="Expiry"
+          />
           <Column header="Default">
             <template #body="slotProps">
               <i
                 v-if="slotProps.data.default"
                 class="pi pi-check text-green-500"
-              ></i>
+              />
             </template>
           </Column>
         </DataTable>
         <div class="mt-6 flex justify-end">
-          <Button icon="pi pi-plus" label="Add New Card" severity="secondary" />
+          <Button
+            icon="pi pi-plus"
+            label="Add New Card"
+            severity="secondary"
+          />
         </div>
       </TabPanel>
 
@@ -280,22 +315,37 @@ const filtersBilling = ref({
       <TabPanel header="Billing History">
         <DataTable
           :value="billingHistory"
-          dataKey="id"
+          data-key="id"
           :filters="filtersBilling"
           :paginator="true"
           :rows="5"
-          tableStyle="min-width: 20rem"
+          table-style="min-width: 20rem"
         >
           <template #header>
             <div class="flex justify-between gap-2 mt-6">
-              <h5 class="m-0 text-lg font-semibold">Invoices</h5>
+              <h5 class="m-0 text-lg font-semibold">
+                Invoices
+              </h5>
             </div>
           </template>
 
-          <Column field="id" header="Invoice ID" />
-          <Column field="amount" header="Amount" />
-          <Column field="date" header="Date" sortable />
-          <Column field="status" header="Status" />
+          <Column
+            field="id"
+            header="Invoice ID"
+          />
+          <Column
+            field="amount"
+            header="Amount"
+          />
+          <Column
+            field="date"
+            header="Date"
+            sortable
+          />
+          <Column
+            field="status"
+            header="Status"
+          />
         </DataTable>
       </TabPanel>
 
