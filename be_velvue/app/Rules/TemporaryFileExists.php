@@ -17,8 +17,8 @@ class TemporaryFileExists implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (
-            !Storage::disk('public')->exists($value) ||
-            !TemporaryUpload::where('path', $value)->exists()
+            ! Storage::disk('public')->exists($value) ||
+            ! TemporaryUpload::where('path', $value)->exists()
         ) {
             $fail(__('The :attribute does not exist.', ['attribute' => $attribute]));
         }

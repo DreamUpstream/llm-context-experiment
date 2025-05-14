@@ -23,7 +23,7 @@ class AuthenticationTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(
-            fn(AssertableJson $json) => $json
+            fn (AssertableJson $json) => $json
                 ->has('success')
         );
     }
@@ -38,7 +38,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $response->assertJson(
-            fn(AssertableJson $json) => $json
+            fn (AssertableJson $json) => $json
                 ->hasAll(['success', 'message', 'errors'])
         );
     }

@@ -57,6 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function mustVerifyEmail(): bool
     {
-        return $this instanceof MustVerifyEmail && !$this->hasVerifiedEmail();
+        return ! $this->hasVerifiedEmail();
     }
 }

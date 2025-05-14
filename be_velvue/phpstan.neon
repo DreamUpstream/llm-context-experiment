@@ -1,0 +1,12 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - routes
+        # You can add other paths like 'tests' or 'database/migrations' if desired
+
+    level: 5
+
+    inferPrivatePropertyTypeFromConstructor: true

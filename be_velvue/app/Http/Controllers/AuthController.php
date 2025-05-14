@@ -9,7 +9,6 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +18,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class AuthController extends Controller
 {
@@ -52,20 +52,70 @@ class AuthController extends Controller
     /**
      * Redirect to provider for authentication
      */
-    public function redirect(string $provider): RedirectResponse
+    public function redirect(string $provider): SymfonyRedirectResponse
     {
         return Socialite::driver($provider)->redirect();
     }
 
     /**
      * Handle callback from provider
+     *
      * @throws \Exception
      */
     public function callback(Request $request, string $provider): View
     {
-        $oAuthUser = Socialite::driver($provider)->user();
+        try {
+            $oAuthUser = Socialite::driver($provider)->user();
 
-        if (!$oAuthUser?->token) {
+            $userProvider = UserProvider::select('id', 'user_id')
+                ->where('name', $provider)
+                ->where('provider_id', $oAuthUser->getId())
+                ->first();
+
+            if (! $userProvider) {
+                if (User::where('email', $oAuthUser->getEmail())->exists()) {
+                    return view('oauth', [
+                        'message' => [
+                            'success' => false,
+                            'message' => __('Unable to authenticate with :provider. User with email :email already exists. To connect a new service to your account, you can go to your account settings and go through the process of linking your account.', [
+                                'provider' => $provider,
+                                'email' => $oAuthUser->getEmail(),
+                            ]),
+                        ],
+                    ]);
+                }
+
+                $user = new User;
+                $user->ulid = Str::ulid()->toBase32();
+                $user->avatar = $oAuthUser->getAvatar();
+                $user->name = $oAuthUser->getName();
+                $user->email = $oAuthUser->getEmail();
+                $user->password = null;
+                $user->email_verified_at = now();
+                $user->save();
+
+                $user->userProviders()->create([
+                    'provider_id' => $oAuthUser->getId(),
+                    'name' => $provider,
+                ]);
+            } else {
+                $user = $userProvider->user;
+            }
+
+            // Ensure user exists before proceeding
+            if ($user && $user instanceof \Illuminate\Contracts\Auth\Authenticatable) {
+                // Log the user in and regenerate the session
+                Auth::login($user);
+                $request->session()->regenerate();
+            }
+
+            return view('oauth', [
+                'message' => [
+                    'success' => true,
+                    'provider' => $provider,
+                ],
+            ]);
+        } catch (\Exception $e) {
             return view('oauth', [
                 'message' => [
                     'success' => false,
@@ -73,52 +123,6 @@ class AuthController extends Controller
                 ],
             ]);
         }
-
-        $userProvider = UserProvider::select('id', 'user_id')
-            ->where('name', $provider)
-            ->where('provider_id', $oAuthUser->id)
-            ->first();
-
-        if (!$userProvider) {
-            if (User::where('email', $oAuthUser->email)->exists()) {
-                return view('oauth', [
-                    'message' => [
-                        'success' => false,
-                        'message' => __('Unable to authenticate with :provider. User with email :email already exists. To connect a new service to your account, you can go to your account settings and go through the process of linking your account.', [
-                            'provider' => $provider,
-                            'email' => $oAuthUser->email,
-                        ]),
-                    ],
-                ]);
-            }
-
-            $user = new User();
-            $user->ulid = Str::ulid()->toBase32();
-            $user->avatar = $oAuthUser->picture ?? $oAuthUser->avatar_original ?? $oAuthUser->avatar;
-            $user->name = $oAuthUser->name;
-            $user->email = $oAuthUser->email;
-            $user->password = null;
-            $user->email_verified_at = now();
-            $user->save();
-
-            $user->userProviders()->create([
-                'provider_id' => $oAuthUser->id,
-                'name' => $provider,
-            ]);
-        } else {
-            $user = $userProvider->user;
-        }
-
-        // Log the user in and regenerate the session
-        Auth::login($user);
-        $request->session()->regenerate();
-
-        return view('oauth', [
-            'message' => [
-                'success' => true,
-                'provider' => $provider,
-            ],
-        ]);
     }
 
     /**
@@ -131,7 +135,7 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+        if (! Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
@@ -154,7 +158,6 @@ class AuthController extends Controller
             'user_agent' => $request->userAgent(),
         ]);
     }
-
 
     /**
      * Log out the authenticated user
@@ -190,6 +193,7 @@ class AuthController extends Controller
 
     /**
      * Handle an incoming password reset link request.
+     *
      * @throws ValidationException
      */
     public function sendResetPasswordLink(Request $request): JsonResponse
@@ -211,6 +215,7 @@ class AuthController extends Controller
 
     /**
      * Handle an incoming new password request.
+     *
      * @throws ValidationException
      */
     public function resetPassword(Request $request): JsonResponse
@@ -251,7 +256,7 @@ class AuthController extends Controller
 
         abort_unless(hash_equals(sha1($user->getEmailForVerification()), $hash), 403, __('Invalid verification link'));
 
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
 
             event(new Verified($user));
@@ -259,7 +264,6 @@ class AuthController extends Controller
 
         return response()->json(['success' => true]);
     }
-
 
     /**
      * Send a new email verification notification.
@@ -272,7 +276,7 @@ class AuthController extends Controller
 
         $user = $request->user() ?: User::where('email', $request->email)->whereNull('email_verified_at')->first();
 
-        abort_if(!$user, 400);
+        abort_if(! $user, 400);
 
         $user->sendEmailVerificationNotification();
 

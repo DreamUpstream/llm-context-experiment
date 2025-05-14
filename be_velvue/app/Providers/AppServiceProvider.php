@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(5)
                 ->by(Str::transliterate(implode('|', [
                     strtolower($request->input('email')),
-                    $request->ip()
+                    $request->ip(),
                 ])))
                 ->response(static function (Request $request, array $headers): void {
                     event(new Lockout($request));
@@ -92,7 +92,7 @@ class AppServiceProvider extends ServiceProvider
         /**
          * Remove all special characters from a string
          */
-        Str::macro('onlyWords', static function (string $text): string {
+        Str::macro('onlyWords', function (string $text): string {
             // \p{L} matches any kind of letter from any language
             // \d matches a digit in any script
             return Str::replaceMatches('/[^\p{L}\d ]/u', '', $text);

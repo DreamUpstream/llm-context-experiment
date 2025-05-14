@@ -56,6 +56,7 @@ class AccountController extends Controller
 
     /**
      * Update the user's password.
+     *
      * @throws ValidationException
      */
     public function password(Request $request): JsonResponse
@@ -66,9 +67,9 @@ class AccountController extends Controller
         ]);
 
         $user = $request->user();
-        abort_if(!$user->password, 403, __('Access denied.'));
+        abort_if(! $user->password, 403, __('Access denied.'));
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             throw ValidationException::withMessages([
                 'current_password' => __('auth.password'),
             ]);
