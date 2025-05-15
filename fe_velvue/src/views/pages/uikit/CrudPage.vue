@@ -183,9 +183,7 @@ function getStatusLabel(status) {
       >
         <template #header>
           <div class="flex flex-wrap gap-2 items-center justify-between">
-            <h4 class="m-0">
-              Manage Products
-            </h4>
+            <h4 class="m-0">Manage Products</h4>
             <IconField>
               <InputIcon>
                 <i class="pi pi-search" />
@@ -203,18 +201,8 @@ function getStatusLabel(status) {
           style="width: 3rem"
           :exportable="false"
         />
-        <Column
-          field="code"
-          header="Code"
-          sortable
-          style="min-width: 12rem"
-        />
-        <Column
-          field="name"
-          header="Name"
-          sortable
-          style="min-width: 16rem"
-        />
+        <Column field="code" header="Code" sortable style="min-width: 12rem" />
+        <Column field="name" header="Name" sortable style="min-width: 16rem" />
         <Column header="Image">
           <template #body="slotProps">
             <img
@@ -222,15 +210,10 @@ function getStatusLabel(status) {
               :alt="slotProps.data.image"
               class="rounded"
               style="width: 64px"
-            >
+            />
           </template>
         </Column>
-        <Column
-          field="price"
-          header="Price"
-          sortable
-          style="min-width: 8rem"
-        >
+        <Column field="price" header="Price" sortable style="min-width: 8rem">
           <template #body="slotProps">
             {{ formatCurrency(slotProps.data.price) }}
           </template>
@@ -248,10 +231,7 @@ function getStatusLabel(status) {
           style="min-width: 12rem"
         >
           <template #body="slotProps">
-            <Rating
-              :model-value="slotProps.data.rating"
-              :readonly="true"
-            />
+            <Rating :model-value="slotProps.data.rating" :readonly="true" />
           </template>
         </Column>
         <Column
@@ -267,10 +247,7 @@ function getStatusLabel(status) {
             />
           </template>
         </Column>
-        <Column
-          :exportable="false"
-          style="min-width: 12rem"
-        >
+        <Column :exportable="false" style="min-width: 12rem">
           <template #body="slotProps">
             <Button
               icon="pi pi-pencil"
@@ -303,12 +280,9 @@ function getStatusLabel(status) {
           :src="`https://primefaces.org/cdn/primevue/images/product/${product.image}`"
           :alt="product.image"
           class="block m-auto pb-4"
-        >
+        />
         <div>
-          <label
-            for="name"
-            class="block font-bold mb-3"
-          >Name</label>
+          <label for="name" class="block font-bold mb-3">Name</label>
           <InputText
             id="name"
             v-model.trim="product.name"
@@ -317,16 +291,14 @@ function getStatusLabel(status) {
             :invalid="submitted && !product.name"
             fluid
           />
-          <small
-            v-if="submitted && !product.name"
-            class="text-red-500"
-          >Name is required.</small>
+          <small v-if="submitted && !product.name" class="text-red-500"
+            >Name is required.</small
+          >
         </div>
         <div>
-          <label
-            for="description"
-            class="block font-bold mb-3"
-          >Description</label>
+          <label for="description" class="block font-bold mb-3"
+            >Description</label
+          >
           <Textarea
             id="description"
             v-model="product.description"
@@ -337,10 +309,9 @@ function getStatusLabel(status) {
           />
         </div>
         <div>
-          <label
-            for="inventoryStatus"
-            class="block font-bold mb-3"
-          >Inventory Status</label>
+          <label for="inventoryStatus" class="block font-bold mb-3"
+            >Inventory Status</label
+          >
           <Select
             id="inventoryStatus"
             v-model="product.inventoryStatus"
@@ -395,10 +366,7 @@ function getStatusLabel(status) {
 
         <div class="grid grid-cols-12 gap-4">
           <div class="col-span-6">
-            <label
-              for="price"
-              class="block font-bold mb-3"
-            >Price</label>
+            <label for="price" class="block font-bold mb-3">Price</label>
             <InputNumber
               id="price"
               v-model="product.price"
@@ -409,10 +377,7 @@ function getStatusLabel(status) {
             />
           </div>
           <div class="col-span-6">
-            <label
-              for="quantity"
-              class="block font-bold mb-3"
-            >Quantity</label>
+            <label for="quantity" class="block font-bold mb-3">Quantity</label>
             <InputNumber
               id="quantity"
               v-model="product.quantity"
@@ -424,17 +389,8 @@ function getStatusLabel(status) {
       </div>
 
       <template #footer>
-        <Button
-          label="Cancel"
-          icon="pi pi-times"
-          text
-          @click="hideDialog"
-        />
-        <Button
-          label="Save"
-          icon="pi pi-check"
-          @click="saveProduct"
-        />
+        <Button label="Cancel" icon="pi pi-times" text @click="hideDialog" />
+        <Button label="Save" icon="pi pi-check" @click="saveProduct" />
       </template>
     </Dialog>
 
@@ -446,7 +402,10 @@ function getStatusLabel(status) {
     >
       <div class="flex items-center gap-4">
         <i class="pi pi-exclamation-triangle !text-3xl" />
-        <span v-if="product">Are you sure you want to delete <b>{{ product.name }}</b>?</span>
+        <span v-if="product"
+          >Are you sure you want to delete <b>{{ product.name }}</b
+          >?</span
+        >
       </div>
       <template #footer>
         <Button
@@ -455,11 +414,7 @@ function getStatusLabel(status) {
           text
           @click="deleteProductDialog = false"
         />
-        <Button
-          label="Yes"
-          icon="pi pi-check"
-          @click="deleteProduct"
-        />
+        <Button label="Yes" icon="pi pi-check" @click="deleteProduct" />
       </template>
     </Dialog>
 
@@ -471,7 +426,9 @@ function getStatusLabel(status) {
     >
       <div class="flex items-center gap-4">
         <i class="pi pi-exclamation-triangle !text-3xl" />
-        <span v-if="product">Are you sure you want to delete the selected products?</span>
+        <span v-if="product"
+          >Are you sure you want to delete the selected products?</span
+        >
       </div>
       <template #footer>
         <Button

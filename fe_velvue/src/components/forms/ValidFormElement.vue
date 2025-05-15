@@ -1,6 +1,6 @@
 <!-- /fe_velvue/src/components/forms/FormGroup.vue -->
 <script setup>
-const props = defineProps({
+defineProps({
   label: { type: String, required: true },
   error: { type: String, default: "" },
   name: { type: String, default: "" },

@@ -1,22 +1,20 @@
 <template>
   <div class="card card-container">
-    <div class="font-semibold text-2xl mb-4">
-      Documentation
-    </div>
-    <div class="font-semibold text-xl mb-4">
-      Get Started
-    </div>
+    <div class="font-semibold text-2xl mb-4">Documentation</div>
+    <div class="font-semibold text-xl mb-4">Get Started</div>
     <p class="text-lg mb-4">
       Velvue is an application template for Laravel & Vue SPA
       <a
         href="https://github.com/vuejs/create-vue"
         class="font-medium text-primary hover:underline"
-      >create-vue</a>, the recommended way to start a <strong>Vite-powered</strong> Vue
+        >create-vue</a
+      >, the recommended way to start a <strong>Vite-powered</strong> Vue
       projects. To get started, clone the
       <a
         href="https://github.com/DreamUpstream/Velvue-Laravel-Vue-SaaS-Starter"
         class="font-medium text-primary hover:underline"
-      >repository</a>
+        >repository</a
+      >
       from GitHub and install the dependencies with npm or yarn.
     </p>
     <pre class="app-code">
@@ -26,15 +24,15 @@ npm run dev</code></pre>
 
     <p class="text-lg mb-4">
       Navigate to
-      <i class="bg-highlight px-2 py-1 rounded-border not-italic text-base">http://localhost:5173/</i>
+      <i class="bg-highlight px-2 py-1 rounded-border not-italic text-base"
+        >http://localhost:5173/</i
+      >
       to view the application in your local environment.
     </p>
 
     <pre class="app-code"><code>npm run dev</code></pre>
 
-    <div class="font-semibold text-xl mb-4">
-      Structure
-    </div>
+    <div class="font-semibold text-xl mb-4">Structure</div>
     <p class="text-lg mb-4">
       Templates consists of a couple folders, demos and layout have been
       separated so that you can easily remove what is not necessary for your
@@ -63,44 +61,44 @@ npm run dev</code></pre>
       </li>
     </ul>
 
-    <div class="font-semibold text-xl mb-4">
-      Menu
-    </div>
+    <div class="font-semibold text-xl mb-4">Menu</div>
     <p class="text-lg mb-4">
       Main menu is defined at
-      <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base">src/layout/AppMenu.vue</span>
+      <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base"
+        >src/layout/AppMenu.vue</span
+      >
       file. Update the
-      <i class="bg-highlight px-2 py-1 rounded-border not-italic text-base">model</i>
+      <i class="bg-highlight px-2 py-1 rounded-border not-italic text-base"
+        >model</i
+      >
       property to define your own menu items.
     </p>
 
-    <div class="font-semibold text-xl mb-4">
-      Layout Composable
-    </div>
+    <div class="font-semibold text-xl mb-4">Layout Composable</div>
     <p class="text-lg mb-4">
       The
-      <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base">src/layout/composables/layout.js</span>
+      <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base"
+        >src/layout/composables/layout.js</span
+      >
       is a composable that manages the layout state changes including dark mode,
       PrimeVue theme, menu modes and states. If you change the initial values
       like the preset or colors, make sure to apply them at PrimeVue config at
       main.js as well.
     </p>
 
-    <div class="font-semibold text-xl mb-4">
-      Tailwind CSS
-    </div>
+    <div class="font-semibold text-xl mb-4">Tailwind CSS</div>
     <p class="text-lg mb-4">
       The demo pages are developed with Tailwind CSS however the core
       application shell mainly uses custom CSS.
     </p>
 
-    <div class="font-semibold text-xl mb-4">
-      Variables
-    </div>
+    <div class="font-semibold text-xl mb-4">Variables</div>
     <p class="text-lg mb-4">
       CSS variables used in the template derive their values from the PrimeVue
       styled mode presets, use the files under
-      <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base">assets/layout/_variables.scss</span>
+      <span class="bg-highlight px-2 py-1 rounded-border not-italic text-base"
+        >assets/layout/_variables.scss</span
+      >
       to customize according to your requirements.
     </p>
   </div>

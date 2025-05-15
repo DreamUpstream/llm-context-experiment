@@ -8,6 +8,7 @@
       target="_blank"
       rel="noopener noreferrer"
       class="text-primary font-bold hover:underline"
-    >PrimeVue</a>
+      >PrimeVue</a
+    >
   </div>
 </template>

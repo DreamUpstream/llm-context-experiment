@@ -21,7 +21,7 @@ function logout() {
         alt="Velvue"
         class="mx-auto mb-4"
         style="max-width: 120px"
-      >
+      />
       <app-menu class="border-t border-surface-border" />
     </div>
 

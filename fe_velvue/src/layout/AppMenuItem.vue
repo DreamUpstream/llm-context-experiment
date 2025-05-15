@@ -99,10 +99,7 @@ function checkActiveRoute(item) {
       tabindex="0"
       @click="itemClick($event, item, index)"
     >
-      <i
-        :class="item.icon"
-        class="layout-menuitem-icon"
-      />
+      <i :class="item.icon" class="layout-menuitem-icon" />
       <span class="layout-menuitem-text">{{ item.label }}</span>
       <i
         v-if="item.items"
@@ -116,10 +113,7 @@ function checkActiveRoute(item) {
       :to="item.to"
       @click="itemClick($event, item, index)"
     >
-      <i
-        :class="item.icon"
-        class="layout-menuitem-icon"
-      />
+      <i :class="item.icon" class="layout-menuitem-icon" />
       <span class="layout-menuitem-text">{{ item.label }}</span>
       <i
         v-if="item.items"
@@ -130,10 +124,7 @@ function checkActiveRoute(item) {
       v-if="item.items && item.visible !== false"
       name="layout-submenu"
     >
-      <ul
-        v-show="root ? true : isActiveMenu"
-        class="layout-submenu"
-      >
+      <ul v-show="root ? true : isActiveMenu" class="layout-submenu">
         <app-menu-item
           v-for="(child, i) in item.items"
           :key="child"

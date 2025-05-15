@@ -2,7 +2,7 @@
 import { useLayout } from "@/layout/composables/layout";
 import { onMounted, ref, watch } from "vue";
 
-const { getPrimary, getSurface, isDarkTheme } = useLayout();
+const { getPrimary, getSurface } = useLayout();
 
 const chartData = ref(null);
 const chartOptions = ref(null);
@@ -92,14 +92,7 @@ onMounted(() => {
 
 <template>
   <div class="card card-container">
-    <div class="font-semibold text-xl mb-4">
-      Revenue Stream
-    </div>
-    <Chart
-      type="bar"
-      :data="chartData"
-      :options="chartOptions"
-      class="h-80"
-    />
+    <div class="font-semibold text-xl mb-4">Revenue Stream</div>
+    <Chart type="bar" :data="chartData" :options="chartOptions" class="h-80" />
   </div>
 </template>

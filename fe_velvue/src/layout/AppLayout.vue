@@ -63,11 +63,7 @@ const { activeTitle, layoutConfig, isSidebarActive, toggleMenu } = useLayout();
     </div>
 
     <!-- Overlay Mask (click anywhere outside to close) -->
-    <div
-      v-if="isSidebarActive"
-      class="layout-mask"
-      @click="toggleMenu"
-    />
+    <div v-if="isSidebarActive" class="layout-mask" @click="toggleMenu" />
   </div>
 </template>
 

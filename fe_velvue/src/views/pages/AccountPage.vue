@@ -56,6 +56,7 @@ async function uploadProfileImage(event) {
   const file = event.files?.[0];
   if (!file) {
     errorMessage.value = "No file selected. Please select an image to upload.";
+    return;
   }
 
   const formData = new FormData();
@@ -75,21 +76,20 @@ async function uploadProfileImage(event) {
 
       authStore.user.avatar = profileImage.value;
     }
-  } catch (error) {
+  } catch (err) {
     errorMessage.value =
       "Failed to upload your profile image. Please try again.";
-    console.error(error);
+    console.error(err);
   } finally {
     uploadingImage.value = false;
   }
 }
 
-const loading = ref(false);
 async function saveProfile() {
   successMessage.value = "";
   errorMessage.value = "";
   try {
-    const response = await api.post("/account/update", {
+    await api.post("/account/update", {
       name: nameField.value,
       email: emailField.value,
       avatar: profileImage.value, // Save updated avatar
@@ -100,8 +100,9 @@ async function saveProfile() {
 
     // Refresh the user details
     await authStore.fetchUser();
-  } catch (error) {
+  } catch (err) {
     errorMessage.value = "Failed to update your profile. Please try again.";
+    console.error(err);
   }
 }
 
@@ -117,9 +118,10 @@ async function deleteAccount() {
         await api.post("/account/delete");
         await authStore.logout();
         router.push({ name: "login" });
-      } catch (error) {
+      } catch (err) {
         errorMessage.value =
           "Could not delete account. Please try again later.";
+        console.error(err);
       }
     },
     reject: () => {
@@ -128,7 +130,8 @@ async function deleteAccount() {
   });
 }
 
-// Logout
+// Logout function - used in template
+// eslint-disable-next-line no-unused-vars
 function logout() {
   authStore.logout().then(() => {
     router.push({ name: "login" });
@@ -152,9 +155,7 @@ const filtersBilling = ref({
 <template>
   <ConfirmDialog />
   <div class="card p-6 card-container">
-    <h2 class="text-2xl font-semibold mb-4">
-      Account Settings
-    </h2>
+    <h2 class="text-2xl font-semibold mb-4">Account Settings</h2>
 
     <Message
       v-if="successMessage"
@@ -209,18 +210,11 @@ const filtersBilling = ref({
           <div class="col-span-12 md:col-span-8">
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Name</label>
-              <InputText
-                v-model="nameField"
-                class="w-full"
-              />
+              <InputText v-model="nameField" class="w-full" />
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Email</label>
-              <InputText
-                v-model="emailField"
-                type="email"
-                class="w-full"
-              />
+              <InputText v-model="emailField" type="email" class="w-full" />
             </div>
             <Button
               label="Save Changes"
@@ -243,27 +237,13 @@ const filtersBilling = ref({
         >
           <template #header>
             <div class="flex justify-between gap-2 mt-6">
-              <h5 class="m-0 text-lg font-semibold">
-                Recent Logins
-              </h5>
+              <h5 class="m-0 text-lg font-semibold">Recent Logins</h5>
             </div>
           </template>
 
-          <Column
-            field="date"
-            header="Date/Time"
-            sortable
-          />
-          <Column
-            field="ip"
-            header="IP Address"
-            sortable
-          />
-          <Column
-            field="location"
-            header="Location"
-            sortable
-          />
+          <Column field="date" header="Date/Time" sortable />
+          <Column field="ip" header="IP Address" sortable />
+          <Column field="location" header="Location" sortable />
         </DataTable>
       </TabPanel>
 
@@ -279,20 +259,12 @@ const filtersBilling = ref({
         >
           <template #header>
             <div class="flex justify-between gap-2 mt-6">
-              <h5 class="m-0 text-lg font-semibold">
-                Your Saved Cards
-              </h5>
+              <h5 class="m-0 text-lg font-semibold">Your Saved Cards</h5>
             </div>
           </template>
 
-          <Column
-            field="type"
-            header="Card"
-          />
-          <Column
-            field="expires"
-            header="Expiry"
-          />
+          <Column field="type" header="Card" />
+          <Column field="expires" header="Expiry" />
           <Column header="Default">
             <template #body="slotProps">
               <i
@@ -303,11 +275,7 @@ const filtersBilling = ref({
           </Column>
         </DataTable>
         <div class="mt-6 flex justify-end">
-          <Button
-            icon="pi pi-plus"
-            label="Add New Card"
-            severity="secondary"
-          />
+          <Button icon="pi pi-plus" label="Add New Card" severity="secondary" />
         </div>
       </TabPanel>
 
@@ -323,29 +291,14 @@ const filtersBilling = ref({
         >
           <template #header>
             <div class="flex justify-between gap-2 mt-6">
-              <h5 class="m-0 text-lg font-semibold">
-                Invoices
-              </h5>
+              <h5 class="m-0 text-lg font-semibold">Invoices</h5>
             </div>
           </template>
 
-          <Column
-            field="id"
-            header="Invoice ID"
-          />
-          <Column
-            field="amount"
-            header="Amount"
-          />
-          <Column
-            field="date"
-            header="Date"
-            sortable
-          />
-          <Column
-            field="status"
-            header="Status"
-          />
+          <Column field="id" header="Invoice ID" />
+          <Column field="amount" header="Amount" />
+          <Column field="date" header="Date" sortable />
+          <Column field="status" header="Status" />
         </DataTable>
       </TabPanel>
 

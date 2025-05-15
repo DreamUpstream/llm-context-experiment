@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import api from "@/service/apiService";
 import { validateEmail } from "@/helpers";
 
@@ -9,7 +8,6 @@ import AuthContainer from "@/components/auth/AuthContainer.vue";
 import AuthLogo from "@/components/auth/AuthLogo.vue";
 import ValidFormElement from "@/components/forms/ValidFormElement.vue";
 
-const router = useRouter();
 const emailField = ref("");
 const loading = ref(false);
 const serverMessage = ref(null);
@@ -50,23 +48,14 @@ async function submitForgotPassword() {
     <AuthLogo text="Forgot your password?" />
 
     <!-- Success message -->
-    <div
-      v-if="serverMessage"
-      class="mb-4"
-    >
-      <Message
-        severity="success"
-        icon="pi pi-check-circle"
-      >
+    <div v-if="serverMessage" class="mb-4">
+      <Message severity="success" icon="pi pi-check-circle">
         {{ serverMessage }}
       </Message>
     </div>
 
     <!-- Server error -->
-    <div
-      v-if="serverErrors"
-      class="mb-4"
-    >
+    <div v-if="serverErrors" class="mb-4">
       <Message
         v-for="(error, key) in serverErrors"
         :key="key"
@@ -78,11 +67,7 @@ async function submitForgotPassword() {
     </div>
 
     <!-- Email field -->
-    <ValidFormElement
-      :label="'Email'"
-      :error="errors?.email"
-      name="emailInput"
-    >
+    <ValidFormElement :label="'Email'" :error="errors?.email" name="emailInput">
       <InputText
         id="emailInput"
         v-model="emailField"

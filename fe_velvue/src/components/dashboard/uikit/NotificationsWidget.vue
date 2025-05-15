@@ -12,21 +12,14 @@ const items = ref([
 <template>
   <div class="card card-container">
     <div class="flex items-center justify-between mb-6">
-      <div class="font-semibold text-xl">
-        Notifications
-      </div>
+      <div class="font-semibold text-xl">Notifications</div>
       <div>
         <Button
           icon="pi pi-ellipsis-v"
           class="p-button-text p-button-plain p-button-rounded"
           @click="$refs.menu.toggle($event)"
         />
-        <Menu
-          ref="menu"
-          popup
-          :model="items"
-          class="!min-w-40"
-        />
+        <Menu ref="menu" popup :model="items" class="!min-w-40" />
       </div>
     </div>
 
@@ -38,9 +31,12 @@ const items = ref([
         >
           <i class="pi pi-dollar !text-xl text-blue-500" />
         </div>
-        <span class="text-surface-900 dark:text-surface-0 leading-normal">Richard Jones
-          <span class="text-surface-700 dark:text-surface-100">has purchased a blue t-shirt for
-            <span class="text-primary font-bold">$79.00</span></span>
+        <span class="text-surface-900 dark:text-surface-0 leading-normal"
+          >Richard Jones
+          <span class="text-surface-700 dark:text-surface-100"
+            >has purchased a blue t-shirt for
+            <span class="text-primary font-bold">$79.00</span></span
+          >
         </span>
       </li>
       <li class="flex items-center py-2">
@@ -49,9 +45,11 @@ const items = ref([
         >
           <i class="pi pi-download !text-xl text-orange-500" />
         </div>
-        <span class="text-surface-700 dark:text-surface-100 leading-normal">Your request for withdrawal of
+        <span class="text-surface-700 dark:text-surface-100 leading-normal"
+          >Your request for withdrawal of
           <span class="text-primary font-bold">$2500.00</span> has been
-          initiated.</span>
+          initiated.</span
+        >
       </li>
     </ul>
 
@@ -63,9 +61,12 @@ const items = ref([
         >
           <i class="pi pi-dollar !text-xl text-blue-500" />
         </div>
-        <span class="text-surface-900 dark:text-surface-0 leading-normal">Keyser Wick
-          <span class="text-surface-700 dark:text-surface-100">has purchased a black jacket for
-            <span class="text-primary font-bold">$59.00</span></span>
+        <span class="text-surface-900 dark:text-surface-0 leading-normal"
+          >Keyser Wick
+          <span class="text-surface-700 dark:text-surface-100"
+            >has purchased a black jacket for
+            <span class="text-primary font-bold">$59.00</span></span
+          >
         </span>
       </li>
       <li class="flex items-center py-2 border-b border-surface">
@@ -74,8 +75,11 @@ const items = ref([
         >
           <i class="pi pi-question !text-xl text-pink-500" />
         </div>
-        <span class="text-surface-900 dark:text-surface-0 leading-normal">Jane Davis
-          <span class="text-surface-700 dark:text-surface-100">has posted a new questions about your product.</span>
+        <span class="text-surface-900 dark:text-surface-0 leading-normal"
+          >Jane Davis
+          <span class="text-surface-700 dark:text-surface-100"
+            >has posted a new questions about your product.</span
+          >
         </span>
       </li>
     </ul>
@@ -87,8 +91,10 @@ const items = ref([
         >
           <i class="pi pi-arrow-up !text-xl text-green-500" />
         </div>
-        <span class="text-surface-900 dark:text-surface-0 leading-normal">Your revenue has increased by
-          <span class="text-primary font-bold">%25</span>.</span>
+        <span class="text-surface-900 dark:text-surface-0 leading-normal"
+          >Your revenue has increased by
+          <span class="text-primary font-bold">%25</span>.</span
+        >
       </li>
       <li class="flex items-center py-2 border-b border-surface">
         <div
@@ -96,8 +102,10 @@ const items = ref([
         >
           <i class="pi pi-heart !text-xl text-purple-500" />
         </div>
-        <span class="text-surface-900 dark:text-surface-0 leading-normal"><span class="text-primary font-bold">12</span> users have added your
-          products to their wishlist.</span>
+        <span class="text-surface-900 dark:text-surface-0 leading-normal"
+          ><span class="text-primary font-bold">12</span> users have added your
+          products to their wishlist.</span
+        >
       </li>
     </ul>
   </div>

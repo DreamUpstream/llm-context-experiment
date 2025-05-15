@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-import { useAuthStore } from "@/stores/auth.js";
 
 import AppMenuItem from "./AppMenuItem.vue";
 
@@ -119,20 +118,14 @@ const model = ref([
 
 <template>
   <ul class="layout-menu">
-    <template
-      v-for="(item, i) in model"
-      :key="item"
-    >
+    <template v-for="(item, i) in model" :key="item">
       <app-menu-item
         v-if="!item.separator"
         :item="item"
         :index="i"
         class="font-sans font-medium"
       />
-      <li
-        v-if="item.separator"
-        class="menu-separator"
-      />
+      <li v-if="item.separator" class="menu-separator" />
     </template>
   </ul>
 </template>

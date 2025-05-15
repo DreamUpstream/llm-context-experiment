@@ -78,24 +78,14 @@ function googleLogin() {
     <DividerOr />
 
     <!-- General Error -->
-    <div
-      v-if="errors?.general"
-      class="mb-4"
-    >
-      <Message
-        severity="error"
-        icon="pi pi-exclamation-circle"
-      >
+    <div v-if="errors?.general" class="mb-4">
+      <Message severity="error" icon="pi pi-exclamation-circle">
         {{ errors.general }}
       </Message>
     </div>
 
     <!-- Email -->
-    <ValidFormElement
-      :label="'Email'"
-      :error="errors?.email"
-      name="email"
-    >
+    <ValidFormElement :label="'Email'" :error="errors?.email" name="email">
       <InputText
         id="email"
         v-model="email"
@@ -131,18 +121,10 @@ function googleLogin() {
     <!-- Remember & Forgot -->
     <div class="flex items-center justify-between mt-2 mb-8 gap-8">
       <div class="flex items-center">
-        <Checkbox
-          id="rememberme"
-          v-model="remember"
-          binary
-          class="mr-2"
-        />
+        <Checkbox id="rememberme" v-model="remember" binary class="mr-2" />
         <label for="rememberme">Remember me</label>
       </div>
-      <router-link
-        to="/auth/forgot-password"
-        class="font-medium text-primary"
-      >
+      <router-link to="/auth/forgot-password" class="font-medium text-primary">
         Forgot password?
       </router-link>
     </div>

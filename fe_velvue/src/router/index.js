@@ -91,7 +91,7 @@ router.beforeEach(async (to, from, next) => {
   if (authStore.user === null && !authStore.loading) {
     try {
       await authStore.fetchUser();
-    } catch (err) {
+    } catch {
       // user stays null if error
     }
   }

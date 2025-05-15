@@ -92,37 +92,21 @@ function googleLogin() {
     <DividerOr />
 
     <!-- General Error -->
-    <div
-      v-if="errors?.general"
-      class="mb-4"
-    >
-      <Message
-        severity="error"
-        icon="pi pi-exclamation-circle"
-      >
+    <div v-if="errors?.general" class="mb-4">
+      <Message severity="error" icon="pi pi-exclamation-circle">
         {{ errors.general }}
       </Message>
     </div>
 
     <!-- Success message -->
-    <div
-      v-if="successMessage"
-      class="mb-4"
-    >
-      <Message
-        severity="success"
-        icon="pi pi-check-circle"
-      >
+    <div v-if="successMessage" class="mb-4">
+      <Message severity="success" icon="pi pi-check-circle">
         {{ successMessage }}
       </Message>
     </div>
 
     <!-- Name -->
-    <ValidFormElement
-      :label="'Name'"
-      :error="errors?.name"
-      name="nameInput"
-    >
+    <ValidFormElement :label="'Name'" :error="errors?.name" name="nameInput">
       <InputText
         id="nameInput"
         v-model="nameField"
@@ -135,11 +119,7 @@ function googleLogin() {
     </ValidFormElement>
 
     <!-- Email -->
-    <ValidFormElement
-      :label="'Email'"
-      :error="errors?.email"
-      name="emailInput"
-    >
+    <ValidFormElement :label="'Email'" :error="errors?.email" name="emailInput">
       <InputText
         id="emailInput"
         v-model="emailField"
