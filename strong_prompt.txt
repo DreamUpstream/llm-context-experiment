@@ -10,7 +10,7 @@ Modify the update method in AccountController.php (app/Http/Controllers/AccountC
 Ensure the user method in AuthController.php (app/Http/Controllers/AuthController.php) includes the bio field in the user data returned to the frontend.
 
 Frontend (Vue.js - fe_velvue):
-UI Update: In the Account.vue page (src/views/pages/Account.vue), add a Textarea input field within the "Profile" tab for users to enter their bio.
+UI Update: In the Account.vue page (src/views/pages/AccountPage.vue), add a Textarea input field within the "Profile" tab for users to enter their bio.
 Display Bio: Display the saved bio on the "Profile" tab (e.g., below the name and email).
 State & API:
 Ensure the saveProfile method in Account.vue includes the bio data in the payload sent to the backend API endpoint (/api/account/update).
