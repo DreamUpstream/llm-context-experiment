@@ -15,13 +15,13 @@ import ValidFormElement from "@/components/forms/ValidFormElement.vue";
 const email = ref("");
 const password = ref("");
 const remember = ref(false);
-const errors = ref(null);
+const errors = ref({});
 const authStore = useAuthStore();
 const router = useRouter();
 const loading = ref(false);
 
 async function submitForm() {
-  errors.value = null;
+  errors.value = {};
   loading.value = true;
 
   if (!validateEmail(email.value)) {
@@ -114,7 +114,7 @@ function googleLogin() {
         :feedback="false"
         :invalid="errors?.password"
         @keydown.enter="submitForm"
-        @input="errors.password = null"
+        @input="if (errors.password) errors.password = null;"
       />
     </ValidFormElement>
 
@@ -140,7 +140,7 @@ function googleLogin() {
 
     <!-- Register link -->
     <div class="text-center text-sm mt-6">
-      Don’t have an account?
+      Don't have an account?
       <router-link
         to="/auth/register"
         class="text-primary font-semibold underline ml-1"
