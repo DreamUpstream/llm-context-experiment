@@ -1,0 +1,52 @@
+===============
+UserBioTest
+
+   PASS  Tests\Feature\Auth\UserBioTest
+  ✓ user endpoint returns bio field                                                                                                               0.14s  
+  ✓ user endpoint returns null bio when empty                                                                                                     0.01s  
+  ✓ bio is included when updating user info                                                                                                       0.02s  
+
+  Tests:    3 passed (22 assertions)
+  Duration: 0.21s
+===============
+UpdateAccountTest
+
+   PASS  Tests\Feature\Account\UpdateAccountTest
+  ✓ user can update bio                                                                                                                           0.09s  
+  ✓ user can set empty bio                                                                                                                        0.01s  
+  ✓ bio cannot exceed maximum length                                                                                                              0.01s  
+  ✓ bio must be string  
+===============
+./vendor/bin/phpstan analyse
+ 16/16 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+                                                                                                                        
+ [OK] No errors                                                                                                         
+                                                                                                                        
+===============
+./vendor/bin/pint --test
+
+  ......................................................
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ................................................................................................................................... 54 files
+===============
+npm run lint:check
+(pass)
+===============
+npm run format:check
+Checking formatting...
+All matched files use Prettier code style!
+===============
+npm run test
+ ✓ src/views/pages/__tests__/AccountPage.spec.js (4)
+   ✓ AccountPage.vue (4)
+     ✓ verifies bio field exists in component data
+     ✓ initializes bio field with user bio from auth store
+     ✓ allows updating bio field value
+     ✓ includes bio field data when saving profile
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+===============
