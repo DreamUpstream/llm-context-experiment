@@ -1,0 +1,1 @@
+Implement both in frontend and backend user account bio field feature. User should set it in account settings page below username and email fields and be able save it. Validate it from backend.

@@ -1,0 +1,16 @@
+Introduce a feature allowing users to add a short "Bio" (biography/description) to their user profile. 
+
+This involves modifications in both the backend and frontend:
+
+Backend (Laravel - be_velvue):
+Database: Create a new migration to add a bio column (e.g., TEXT, nullable) to the users table.
+Model: Update the User model (app/Models/User.php) to include bio in the $fillable attributes.
+Controller Logic:
+Modify the update method in AccountController.php (app/Http/Controllers/AccountController.php) to accept and save the bio field. Include validation (e.g., nullable, string, max 255 characters).
+Ensure the user method in AuthController.php (app/Http/Controllers/AuthController.php) includes the bio field in the user data returned to the frontend.
+
+Frontend (Vue.js - fe_velvue):
+UI Update: In the Account.vue page (src/views/pages/Account.vue), add a Textarea input field within the "Profile" tab for users to enter their bio.
+Display Bio: Display the saved bio on the "Profile" tab (e.g., below the name and email).
+State & API:
+Ensure the saveProfile method in Account.vue includes the bio data in the payload sent to the backend API endpoint (/api/account/update).
