@@ -1,0 +1,10 @@
+LLM did not apply the code. Suggested solution was a generic attempt towards implementing it, not related to the actual codebase. Agent mode does not work.
+php artisan test --filter=UserBioTest
+php artisan test --filter=UpdateAccountTest
+ALL FAILED
+./vendor/bin/phpstan analyse
+./vendor/bin/pint --test
+Npm run test
+npm run lint:check
+npm run format:check
+Nothing in code was done (not applicable)
