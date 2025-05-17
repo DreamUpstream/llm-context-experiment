@@ -24,13 +24,14 @@ class AccountController extends Controller
             'name' => $request->name ? Str::squish(Str::onlyWords($request->name)) : '',
         ]);
 
-        $user = $request->user();
-
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => ['required', 'string', 'min:3', 'max:100'],
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-            'avatar' => ['nullable', 'string', Rule::excludeIf($request->avatar === $user->avatar), 'regex:/^avatars\/[a-z0-9]{26}\.([a-z]++)$/i', new TemporaryFileExists],
+            'email' => ['required', 'email', 'unique:users,email,' . $request->user()->id],
+            'avatar' => ['nullable', 'string', Rule::excludeIf($request->avatar === $request->user()->avatar), 'regex:/^avatars\/[a-z0-9]{26}\.([a-z]++)$/i', new TemporaryFileExists],
+            'bio' => 'nullable|string|max:255',
         ]);
+
+        $user = $request->user();
 
         if ($user->avatar && Str::startsWith($user->avatar, 'avatars/') && $user->avatar !== $request->avatar) {
             Storage::disk('public')->delete($user->avatar);
@@ -38,7 +39,7 @@ class AccountController extends Controller
 
         $email = $user->email;
 
-        $user->update($request->only(['name', 'email', 'avatar']));
+        $user->update($validatedData);
 
         if ($email !== $request->email) {
             $user->email_verified_at = null;
@@ -51,6 +52,7 @@ class AccountController extends Controller
 
         return response()->json([
             'success' => true,
+            'user' => $user,
         ]);
     }
 

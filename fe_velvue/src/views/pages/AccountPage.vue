@@ -19,6 +19,7 @@ const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
+const bio = ref("");
 
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
@@ -89,11 +90,13 @@ async function saveProfile() {
   successMessage.value = "";
   errorMessage.value = "";
   try {
-    await api.post("/account/update", {
+    const payload = {
       name: nameField.value,
       email: emailField.value,
-      avatar: profileImage.value, // Save updated avatar
-    });
+      avatar: profileImage.value,
+      bio: bio.value,
+    };
+    await api.post("/account/update", payload);
 
     successMessage.value =
       "Your account details have been updated successfully.";
@@ -216,6 +219,15 @@ const filtersBilling = ref({
               <label class="block text-sm font-medium mb-1">Email</label>
               <InputText v-model="emailField" type="email" class="w-full" />
             </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Bio</label>
+              <textarea
+                v-model="bio"
+                placeholder="Enter your bio"
+                class="w-full"
+              ></textarea>
+            </div>
+            <p>{{ bio }}</p>
             <Button
               label="Save Changes"
               icon="pi pi-check"
