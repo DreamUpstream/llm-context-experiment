@@ -1,1 +1,1 @@
-Implement both in frontend and backend user account bio field feature. User should set it in account settings page below username and email fields and be able save it. Validate it from backend.
+Implement both in frontend and backend user account bio field feature. User should be able to set it in account settings page below username and email fields. Validate bio field from backend to be no more than 255 chars.
