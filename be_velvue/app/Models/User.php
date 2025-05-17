@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'avatar',
         'password',
+        'bio', // Added bio to fillable attributes
     ];
 
     /**

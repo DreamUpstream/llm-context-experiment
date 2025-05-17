@@ -15,6 +15,7 @@ const authStore = useAuthStore();
 // Basic user form fields
 const nameField = ref("");
 const emailField = ref("");
+const bioField = ref(""); // Added bio field
 const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
@@ -26,6 +27,7 @@ onMounted(() => {
   if (authStore.user) {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
+    bioField.value = authStore.user.bio; // Load bio from user data
     profileImage.value = authStore.user.avatar;
   }
 });
@@ -89,11 +91,13 @@ async function saveProfile() {
   successMessage.value = "";
   errorMessage.value = "";
   try {
-    await api.post("/account/update", {
+    const payload = {
       name: nameField.value,
       email: emailField.value,
+      bio: bioField.value, // Include bio in the payload
       avatar: profileImage.value, // Save updated avatar
-    });
+    };
+    await api.post("/account/update", payload);
 
     successMessage.value =
       "Your account details have been updated successfully.";
@@ -215,6 +219,15 @@ const filtersBilling = ref({
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Email</label>
               <InputText v-model="emailField" type="email" class="w-full" />
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Bio</label>
+              <InputTextarea
+                v-model="bioField"
+                rows="3"
+                class="w-full resize-none"
+                placeholder="Tell us about yourself"
+              />
             </div>
             <Button
               label="Save Changes"
