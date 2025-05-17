@@ -15,6 +15,7 @@ const authStore = useAuthStore();
 // Basic user form fields
 const nameField = ref("");
 const emailField = ref("");
+const bioField = ref("");
 const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
@@ -26,6 +27,7 @@ onMounted(() => {
   if (authStore.user) {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
+    bioField.value = authStore.user.bio || "";
     profileImage.value = authStore.user.avatar;
   }
 });
@@ -92,6 +94,7 @@ async function saveProfile() {
     await api.post("/account/update", {
       name: nameField.value,
       email: emailField.value,
+      bio: bioField.value,
       avatar: profileImage.value, // Save updated avatar
     });
 
@@ -176,6 +179,39 @@ const filtersBilling = ref({
     <Tabs>
       <!-- PROFILE TAB -->
       <TabPanel header="Profile">
+        <!-- Display Profile Summary -->
+        <Card class="mb-5" v-if="authStore.user">
+          <template #title>
+            <div class="flex items-center gap-3">
+              <Avatar
+                v-if="profileImage"
+                :image="profileImage"
+                class="w-12 h-12 rounded-full border border-gray-300"
+              />
+              <Avatar
+                v-else
+                icon="pi pi-user"
+                class="w-12 h-12"
+                :image="authStore.user?.avatar"
+              />
+              <div>
+                <h3 class="text-xl font-semibold m-0">
+                  {{ authStore.user.name }}
+                </h3>
+                <p class="text-sm text-gray-500 m-0">
+                  {{ authStore.user.email }}
+                </p>
+              </div>
+            </div>
+          </template>
+          <template #content>
+            <p v-if="authStore.user.bio" class="m-0">
+              {{ authStore.user.bio }}
+            </p>
+            <p v-else class="text-gray-500 italic m-0">No bio provided</p>
+          </template>
+        </Card>
+
         <div class="grid grid-cols-12 gap-6">
           <!-- Profile Image -->
           <div
@@ -215,6 +251,17 @@ const filtersBilling = ref({
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Email</label>
               <InputText v-model="emailField" type="email" class="w-full" />
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Bio</label>
+              <Textarea
+                v-model="bioField"
+                rows="3"
+                class="w-full"
+                placeholder="Tell us a bit about yourself..."
+                maxlength="255"
+              />
+              <small class="text-gray-500">Maximum 255 characters</small>
             </div>
             <Button
               label="Save Changes"
