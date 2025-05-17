@@ -1,0 +1,206 @@
+Author comment: did not do everything that was needed to complete the task.
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter=UserBioTest
+
+   FAIL  Tests\Feature\Auth\UserBioTest
+  ⨯ user endpoint returns bio field                                                            0.12s  
+  ⨯ user endpoint returns null bio when empty
+  ⨯ bio is included when updating user info
+  ──────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Auth\UserBioTest > user endpoint returns bio field          QueryException   
+  SQLSTATE[HY000]: General error: 1 table users has no column named bio (Connection: sqlite, SQL: insert into "users" ("name", "email", "email_verified_at", "password", "remember_token", "ulid", "bio", "updated_at", "created_at") values (Torey Quigley, elvis.cormier@example.net, 2025-05-17 15:56:47, $2y$04$AnAerBJecwqzD9eVZHj1aeNhI2q6QlRV0vYinS0Pd9SSFrPi0453O, 5DePw0FrcV, 01JVFFCMWRV79A6AFSN1AET2G0, This is a test bio, 2025-05-17 15:56:47, 2025-05-17 15:56:47))
+
+  at vendor/laravel/framework/src/Illuminate/Database/Connection.php:825
+    821▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    822▕                 );
+    823▕             }
+    824▕ 
+  ➜ 825▕             throw new QueryException(
+    826▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    827▕             );
+    828▕         }
+    829▕     }
+
+      +18 vendor frames 
+  19  tests/Feature/Auth/UserBioTest.php:17
+
+  ──────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Auth\UserBioTest > user endpoint returns null bio when em…  QueryException   
+  SQLSTATE[HY000]: General error: 1 table users has no column named bio (Connection: sqlite, SQL: insert into "users" ("name", "email", "email_verified_at", "password", "remember_token", "ulid", "bio", "updated_at", "created_at") values (Hubert Anderson, oherman@example.com, 2025-05-17 15:56:47, $2y$04$AnAerBJecwqzD9eVZHj1aeNhI2q6QlRV0vYinS0Pd9SSFrPi0453O, u5Qkl3p84R, 01JVFFCMXC2G382P38A7N8WG9Y, ?, 2025-05-17 15:56:47, 2025-05-17 15:56:47))
+
+  at vendor/laravel/framework/src/Illuminate/Database/Connection.php:825
+    821▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    822▕                 );
+    823▕             }
+    824▕ 
+  ➜ 825▕             throw new QueryException(
+    826▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    827▕             );
+    828▕         }
+    829▕     }
+
+      +18 vendor frames 
+  19  tests/Feature/Auth/UserBioTest.php:38
+
+  ──────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Auth\UserBioTest > bio is included when updating user inf…  QueryException   
+  SQLSTATE[HY000]: General error: 1 table users has no column named bio (Connection: sqlite, SQL: insert into "users" ("name", "email", "email_verified_at", "password", "remember_token", "ulid", "bio", "updated_at", "created_at") values (Josh Sipes, kaycee.west@example.com, 2025-05-17 15:56:47, $2y$04$AnAerBJecwqzD9eVZHj1aeNhI2q6QlRV0vYinS0Pd9SSFrPi0453O, xjKTfDZu4H, 01JVFFCMXG2SGXQQF43VJWKKF0, Initial bio, 2025-05-17 15:56:47, 2025-05-17 15:56:47))
+
+  at vendor/laravel/framework/src/Illuminate/Database/Connection.php:825
+    821▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    822▕                 );
+    823▕             }
+    824▕ 
+  ➜ 825▕             throw new QueryException(
+    826▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    827▕             );
+    828▕         }
+    829▕     }
+
+      +18 vendor frames 
+  19  tests/Feature/Auth/UserBioTest.php:59
+
+
+  Tests:    3 failed (0 assertions)
+  Duration: 0.16s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter=UpdateAccountTest
+
+   FAIL  Tests\Feature\Account\UpdateAccountTest
+  ⨯ user can update bio                                                                        0.10s  
+  ⨯ user can set empty bio                                                                     0.04s  
+  ✓ bio cannot exceed maximum length                                                           0.01s  
+  ✓ bio must be string                                                                         0.01s  
+  ──────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\UpdateAccountTest > user can update bio             QueryException   
+  SQLSTATE[HY000]: General error: 1 table users has no column named bio (Connection: sqlite, SQL: insert into "users" ("name", "email", "email_verified_at", "password", "remember_token", "ulid", "bio", "updated_at", "created_at") values (Miss Claire Cormier, smurray@example.com, 2025-05-17 15:57:01, $2y$04$U8rRiF9fP.HqcIJnx7C1EeLM1pLOPd04smeG1LnAs7xeNpHDlgNIG, RN2cLmaIgD, 01JVFFD354FVG90BPZRCDV81CT, Original bio text, 2025-05-17 15:57:01, 2025-05-17 15:57:01))
+
+  at vendor/laravel/framework/src/Illuminate/Database/Connection.php:825
+    821▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    822▕                 );
+    823▕             }
+    824▕ 
+  ➜ 825▕             throw new QueryException(
+    826▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    827▕             );
+    828▕         }
+    829▕     }
+
+      +18 vendor frames 
+  19  tests/Feature/Account/UpdateAccountTest.php:16
+
+  ──────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\UpdateAccountTest > user can set empty bio                           
+  Failed asserting that a row in the table [users] matches the attributes {
+    "id": 1,
+    "bio": null
+}.
+
+Found similar results: [
+    {
+        "id": 1,
+        "\"bio\"": "bio"
+    }
+].
+
+  at tests/Feature/Account/UpdateAccountTest.php:55
+     51▕ 
+     52▕         $response->assertStatus(200);
+     53▕         $response->assertJson(['success' => true]);
+     54▕ 
+  ➜  55▕         $this->assertDatabaseHas('users', [
+     56▕             'id' => $user->id,
+     57▕             'bio' => null,
+     58▕         ]);
+     59▕     }
+
+
+  Tests:    2 failed, 2 passed (7 assertions)
+  Duration: 0.19s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 16/16 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+                                                                                                      
+ [OK] No errors                                                                                       
+                                                                                                      
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  .....................................................
+
+  ────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ................................................................................ 53 files  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % Npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > verifies bio field exists in component data
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > initializes bio field with user bio from auth store
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > allows updating bio field value
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > includes bio field data when saving profile
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+ ✓ src/views/pages/__tests__/AccountPage.spec.js (4)
+   ✓ AccountPage.vue (4)
+     ✓ verifies bio field exists in component data
+     ✓ initializes bio field with user bio from auth store
+     ✓ allows updating bio field value
+     ✓ includes bio field data when saving profile
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  18:57:23
+   Duration  1.08s (transform 386ms, setup 37ms, collect 470ms, tests 17ms, environment 266ms, prepare 40ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+
+/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/views/pages/AccountPage.vue
+  228:17  warning  Attribute 'maxLength' must be hyphenated  vue/attribute-hyphenation
+
+✖ 1 problem (0 errors, 1 warning)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
