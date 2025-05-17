@@ -184,6 +184,7 @@ class AuthController extends Controller
             'success' => true,
             'user' => [
                 ...$user->toArray(),
+                'bio' => $user->bio,
                 'must_verify_email' => $user->mustVerifyEmail(),
                 'has_password' => (bool) $user->password,
                 'providers' => $user->userProviders()->select('name')->pluck('name'),

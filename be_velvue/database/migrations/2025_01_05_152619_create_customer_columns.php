@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('pm_type')->nullable();
             $table->string('pm_last_four', 4)->nullable();
             $table->timestamp('trial_ends_at')->nullable();
+            $table->text('bio')->nullable();
         });
     }
 
@@ -34,6 +35,7 @@ return new class extends Migration
                 'pm_type',
                 'pm_last_four',
                 'trial_ends_at',
+                'bio',
             ]);
         });
     }
