@@ -19,6 +19,7 @@ const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
+const bioField = ref("");
 
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
@@ -27,6 +28,7 @@ onMounted(() => {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
     profileImage.value = authStore.user.avatar;
+    bioField.value = authStore.user.bio;
   }
 });
 
@@ -93,6 +95,7 @@ async function saveProfile() {
       name: nameField.value,
       email: emailField.value,
       avatar: profileImage.value, // Save updated avatar
+      bio: bioField.value, // Save bio
     });
 
     successMessage.value =
@@ -215,6 +218,16 @@ const filtersBilling = ref({
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Email</label>
               <InputText v-model="emailField" type="email" class="w-full" />
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Bio</label>
+              <InputTextarea
+                v-model="bioField"
+                class="w-full"
+                rows="3"
+                maxLength="255"
+                placeholder="Tell us about yourself..."
+              />
             </div>
             <Button
               label="Save Changes"
