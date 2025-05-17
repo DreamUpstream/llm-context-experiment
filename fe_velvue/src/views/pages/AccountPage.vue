@@ -15,6 +15,7 @@ const authStore = useAuthStore();
 // Basic user form fields
 const nameField = ref("");
 const emailField = ref("");
+const bioField = ref("");
 const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
@@ -26,6 +27,7 @@ onMounted(() => {
   if (authStore.user) {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
+    bioField.value = authStore.user.bio || ""; // Initialize bio field
     profileImage.value = authStore.user.avatar;
   }
 });
@@ -93,6 +95,7 @@ async function saveProfile() {
       name: nameField.value,
       email: emailField.value,
       avatar: profileImage.value, // Save updated avatar
+      bio: bioField.value, // Save bio field
     });
 
     successMessage.value =
@@ -215,6 +218,15 @@ const filtersBilling = ref({
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Email</label>
               <InputText v-model="emailField" type="email" class="w-full" />
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Bio</label>
+              <InputTextarea
+                v-model="bioField"
+                class="w-full"
+                rows="3"
+                placeholder="Tell us about yourself..."
+              />
             </div>
             <Button
               label="Save Changes"

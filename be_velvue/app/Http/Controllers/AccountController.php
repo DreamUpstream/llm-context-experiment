@@ -30,6 +30,7 @@ class AccountController extends Controller
             'name' => ['required', 'string', 'min:3', 'max:100'],
             'email' => ['required', 'email', 'unique:users,email,' . $user->id],
             'avatar' => ['nullable', 'string', Rule::excludeIf($request->avatar === $user->avatar), 'regex:/^avatars\/[a-z0-9]{26}\.([a-z]++)$/i', new TemporaryFileExists],
+            'bio' => ['nullable', 'string', 'max:255'],
         ]);
 
         if ($user->avatar && Str::startsWith($user->avatar, 'avatars/') && $user->avatar !== $request->avatar) {
@@ -38,7 +39,7 @@ class AccountController extends Controller
 
         $email = $user->email;
 
-        $user->update($request->only(['name', 'email', 'avatar']));
+        $user->update($request->only(['name', 'email', 'avatar', 'bio']));
 
         if ($email !== $request->email) {
             $user->email_verified_at = null;
