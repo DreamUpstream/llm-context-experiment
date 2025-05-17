@@ -183,10 +183,9 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'user' => [
-                ...$user->toArray(),
-                'must_verify_email' => $user->mustVerifyEmail(),
-                'has_password' => (bool) $user->password,
-                'providers' => $user->userProviders()->select('name')->pluck('name'),
+                'name' => $user->name,
+                'email' => $user->email,
+                'bio' => $user->bio, // Include bio in the user data
             ],
         ]);
     }

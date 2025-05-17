@@ -19,6 +19,7 @@ const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
+const bioField = ref(""); // Added bio field
 
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
@@ -27,6 +28,7 @@ onMounted(() => {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
     profileImage.value = authStore.user.avatar;
+    bioField.value = authStore.user.bio; // Load bio from user data
   }
 });
 
@@ -89,19 +91,21 @@ async function saveProfile() {
   successMessage.value = "";
   errorMessage.value = "";
   try {
-    await api.post("/account/update", {
+    const payload = {
       name: nameField.value,
       email: emailField.value,
-      avatar: profileImage.value, // Save updated avatar
-    });
+      avatar: profileImage.value,
+      bio: bioField.value, // Include bio in the payload
+    };
 
-    successMessage.value =
-      "Your account details have been updated successfully.";
+    const response = await api.post("/api/account/update", payload);
 
-    // Refresh the user details
-    await authStore.fetchUser();
+    if (response.data.success) {
+      successMessage.value = "Profile updated successfully.";
+      authStore.user.bio = bioField.value; // Update bio in the store
+    }
   } catch (err) {
-    errorMessage.value = "Failed to update your profile. Please try again.";
+    errorMessage.value = "Failed to update profile. Please try again.";
     console.error(err);
   }
 }
@@ -215,6 +219,15 @@ const filtersBilling = ref({
             <div class="mb-4">
               <label class="block text-sm font-medium mb-1">Email</label>
               <InputText v-model="emailField" type="email" class="w-full" />
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Bio</label>
+              <InputTextarea
+                v-model="bioField"
+                rows="3"
+                class="w-full"
+                placeholder="Tell us about yourself"
+              />
             </div>
             <Button
               label="Save Changes"

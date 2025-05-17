@@ -1,0 +1,134 @@
+gmaz@GMacBook-Air be_velvue % php artisan test --filter=UserBioTest
+
+   PASS  Tests\Feature\Auth\UserBioTest
+  ✓ user endpoint returns bio field                                                     0.13s  
+  ✓ user endpoint returns null bio when empty                                           0.01s  
+  ✓ bio is included when updating user info                                             0.02s  
+
+  Tests:    3 passed (22 assertions)
+  Duration: 0.20s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter=UpdateAccountTest
+
+   PASS  Tests\Feature\Account\UpdateAccountTest
+  ✓ user can update bio                                                                 0.09s  
+  ✓ user can set empty bio                                                              0.01s  
+  ✓ bio cannot exceed maximum length                                                    0.01s  
+  ✓ bio must be string                                                                  0.01s  
+
+  Tests:    4 passed (10 assertions)
+  Duration: 0.13s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 16/16 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+                                                                                               
+ [OK] No errors                                                                                
+                                                                                               
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  ......................................................
+
+  ─────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ......................................................................... 54 files  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % Npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > verifies bio field exists in component data
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > initializes bio field with user bio from auth store
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > allows updating bio field value
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+stderr | src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > includes bio field data when saving profile
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+[Vue warn]: Failed to resolve component: InputTextarea
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement. 
+  at <AccountPage ref="VTU_COMPONENT" > 
+  at <VTUROOT>
+
+ ❯ src/views/pages/__tests__/AccountPage.spec.js (4)
+   ❯ AccountPage.vue (4)
+     ✓ verifies bio field exists in component data
+     ✓ initializes bio field with user bio from auth store
+     ✓ allows updating bio field value
+     × includes bio field data when saving profile
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > includes bio field data when saving profile
+AssertionError: expected "spy" to be called with arguments: [ '/account/update', …(1) ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+-   "/account/update",
++   "/api/account/update",
+    Object {
+      "avatar": null,
+      "bio": "New bio for profile save test",
+      "email": "test@example.com",
+      "name": "Test User",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/views/pages/__tests__/AccountPage.spec.js:111:22
+    109| 
+    110|     // Verify API was called with correct data including bio
+    111|     expect(api.post).toHaveBeenCalledWith("/account/update", {
+       |                      ^
+    112|       name: wrapper.vm.nameField,
+    113|       email: wrapper.vm.emailField,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  19:44:59
+   Duration  1.05s (transform 374ms, setup 37ms, collect 447ms, tests 21ms, environment 260ms, prepare 40ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+gmaz@GMacBook-Air fe_velvue % 
