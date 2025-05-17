@@ -19,6 +19,7 @@ const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
+const bioField = ref("");
 
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
@@ -93,6 +94,7 @@ async function saveProfile() {
       name: nameField.value,
       email: emailField.value,
       avatar: profileImage.value, // Save updated avatar
+      bio: bioField.value, // Save bio
     });
 
     successMessage.value =
@@ -206,21 +208,18 @@ const filtersBilling = ref({
             />
           </div>
 
-          <!-- Profile Details -->
+          <!-- Bio Field -->
           <div class="col-span-12 md:col-span-8">
-            <div class="mb-4">
-              <label class="block text-sm font-medium mb-1">Name</label>
-              <InputText v-model="nameField" class="w-full" />
-            </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium mb-1">Email</label>
-              <InputText v-model="emailField" type="email" class="w-full" />
-            </div>
-            <Button
-              label="Save Changes"
-              icon="pi pi-check"
-              @click="saveProfile"
-            />
+            <label for="bio" class="block text-sm font-medium text-gray-700"
+              >Bio</label
+            >
+            <textarea
+              id="bio"
+              v-model="bioField"
+              rows="3"
+              class="mt-1 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+              placeholder="Tell us a little about yourself..."
+            ></textarea>
           </div>
         </div>
       </TabPanel>

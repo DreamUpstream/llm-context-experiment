@@ -1,0 +1,116 @@
+gmaz@GMacBook-Air be_velvue % php artisan test --filter=UserBioTest
+
+   PASS  Tests\Feature\Auth\UserBioTest
+  ✓ user endpoint returns bio field                                                            0.12s  
+  ✓ user endpoint returns null bio when empty                                                  0.01s  
+  ✓ bio is included when updating user info                                                    0.02s  
+
+  Tests:    3 passed (22 assertions)
+  Duration: 0.19s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter=UpdateAccountTest
+
+   PASS  Tests\Feature\Account\UpdateAccountTest
+  ✓ user can update bio                                                                        0.15s  
+  ✓ user can set empty bio                                                                     0.01s  
+  ✓ bio cannot exceed maximum length                                                           0.01s  
+  ✓ bio must be string                                                                         0.01s  
+
+  Tests:    4 passed (10 assertions)
+  Duration: 0.20s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 16/16 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+                                                                                                      
+ [OK] No errors                                                                                       
+                                                                                                      
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  .....................................................
+
+  ────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ................................................................................ 53 files  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % Npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+ ❯ src/views/pages/__tests__/AccountPage.spec.js (4)
+   ❯ AccountPage.vue (4)
+     × verifies bio field exists in component data
+     × initializes bio field with user bio from auth store
+     ✓ allows updating bio field value
+     ✓ includes bio field data when saving profile
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > verifies bio field exists in component data
+AssertionError: expected '' to be 'Initial test bio' // Object.is equality
+
+- Expected
++ Received
+
+- Initial test bio
+
+ ❯ src/views/pages/__tests__/AccountPage.spec.js:86:33
+     84|     // This confirms the bioField ref is defined and has the correct initial value
+     85|     expect(wrapper.vm.bioField).toBeDefined();
+     86|     expect(wrapper.vm.bioField).toBe(testUser.bio);
+       |                                 ^
+     87|   });
+     88| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.spec.js > AccountPage.vue > initializes bio field with user bio from auth store
+AssertionError: expected '' to be 'Initial test bio' // Object.is equality
+
+- Expected
++ Received
+
+- Initial test bio
+
+ ❯ src/views/pages/__tests__/AccountPage.spec.js:91:33
+     89|   it("initializes bio field with user bio from auth store", () => {
+     90|     // Direct check of the bioField reactive property
+     91|     expect(wrapper.vm.bioField).toBe("Initial test bio");
+       |                                 ^
+     92|   });
+     93| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  15:45:14
+   Duration  1.04s (transform 363ms, setup 35ms, collect 443ms, tests 21ms, environment 266ms, prepare 40ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+
+/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/views/pages/AccountPage.vue
+  89:16  error  'saveProfile' is defined but never used  no-unused-vars
+
+✖ 1 problem (1 error, 0 warnings)
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
