@@ -150,6 +150,50 @@ const filtersPayment = ref({
 const filtersBilling = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
+
+async function uploadBackgroundImage(event) {
+  const file = event.files?.[0];
+  if (!file) {
+    errorMessage.value = "No file selected. Please select an image to upload.";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("entity", "dashboard_backgrounds");
+
+  try {
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.success) {
+      authStore.user.dashboard_preference.background_image_path = `${import.meta.env.VITE_API_URL}/storage/${response.data.path}`;
+      successMessage.value = "Background image uploaded successfully.";
+    }
+  } catch (err) {
+    errorMessage.value = "Failed to upload background image. Please try again.";
+    console.error(err);
+  }
+}
+
+async function saveDashboardPreferences() {
+  successMessage.value = "";
+  errorMessage.value = "";
+  try {
+    await api.post("/account/update-dashboard-preferences", {
+      accent_color: authStore.user.dashboard_preference.accent_color,
+      background_image_path:
+        authStore.user.dashboard_preference.background_image_path,
+    });
+
+    successMessage.value = "Dashboard preferences updated successfully.";
+  } catch (err) {
+    errorMessage.value =
+      "Failed to update dashboard preferences. Please try again.";
+    console.error(err);
+  }
+}
 </script>
 
 <template>
@@ -319,6 +363,49 @@ const filtersBilling = ref({
             @click="deleteAccount"
           />
         </div>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Accent Color Picker -->
+          <div class="col-span-12 md:col-span-6">
+            <label
+              for="accentColor"
+              class="block text-sm font-medium text-gray-700"
+              >Accent Color</label
+            >
+            <ColorPicker
+              v-model="authStore.user.dashboard_preference.accent_color"
+              class="mt-1 block w-full"
+            />
+          </div>
+
+          <!-- Background Image Upload -->
+          <div class="col-span-12 md:col-span-6">
+            <label
+              for="backgroundImage"
+              class="block text-sm font-medium text-gray-700"
+              >Background Image</label
+            >
+            <FileUpload
+              mode="basic"
+              auto
+              name="backgroundImage"
+              :url="`${import.meta.env.VITE_API_URL}/api/upload`"
+              :customUpload="true"
+              :uploadHandler="uploadBackgroundImage"
+              accept="image/*"
+              chooseLabel="Choose Image"
+              class="mt-1 block w-full"
+            />
+          </div>
+        </div>
+        <Button
+          label="Save Preferences"
+          class="mt-4"
+          @click="saveDashboardPreferences"
+        />
       </TabPanel>
     </Tabs>
   </div>

@@ -1,0 +1,358 @@
+gmaz@GMacBook-Air be_velvue % php artisan test --filter DashboardPreferencesTest
+
+   FAIL  Tests\Feature\Account\DashboardPreferencesTest
+  ⨯ user can set accent color preference                                                                0.12s  
+  ⨯ user can set background image preference                                                            0.01s  
+  ⨯ user can update both preferences                                                                    0.01s  
+  ⨯ updating background image deletes old image and temporary record                                    0.01s  
+  ⨯ user can clear accent color
+  ⨯ user can clear background image and it deletes file                                                 0.01s  
+  ⨯ accent color validation fails for invalid hex
+  ⨯ background image path validation fails for non existent temporary file
+  ⨯ background image path validation fails for wrong entity regex
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can set accent col…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:39
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can set background…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:57
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can update both pr…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:76
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > updating background ima…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:92
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can clear accent color                Error   
+  Class "App\Models\UserDashboardPreference" not found
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:109
+    105▕     }
+    106▕ 
+    107▕     public function test_user_can_clear_accent_color(): void
+    108▕     {
+  ➜ 109▕         UserDashboardPreference::factory()->create(['user_id' => $this->user->id, 'accent_color' => '#FF0000']);
+    110▕         $response = $this->postJson(route('account.dashboard-preferences'), ['accent_color' => null]);
+    111▕         $response->assertOk();
+    112▕         $this->assertDatabaseHas('user_dashboard_preferences', ['user_id' => $this->user->id, 'accent_color' => null]);
+    113▕     }
+
+  1   tests/Feature/Account/DashboardPreferencesTest.php:109
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can clear background image and it d…  Error   
+  Class "App\Models\UserDashboardPreference" not found
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:119
+    115▕     public function test_user_can_clear_background_image_and_it_deletes_file(): void
+    116▕     {
+    117▕         $imagePath = 'dashboard_backgrounds/persisted_image.webp';
+    118▕         Storage::disk('public')->put($imagePath, UploadedFile::fake()->image('persisted_image.webp')->getContent());
+  ➜ 119▕         UserDashboardPreference::factory()->create(['user_id' => $this->user->id, 'background_image_path' => $imagePath]);
+    120▕         $this->assertTrue(Storage::disk('public')->exists($imagePath));
+    121▕ 
+    122▕         $response = $this->postJson(route('account.dashboard-preferences'), ['background_image_path' => null]);
+    123▕         $response->assertOk();
+
+  1   tests/Feature/Account/DashboardPreferencesTest.php:119
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > accent color validation…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:131
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > background image path v…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:144
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > background image path v…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:153
+
+
+  Tests:    9 failed (0 assertions)
+  Duration: 0.21s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter UserEndpointPreferencesTest
+
+   FAIL  Tests\Feature\Auth\UserEndpointPreferencesTest
+  ✓ user endpoint returns null dashboard preference if not set                                          0.12s  
+  ⨯ user endpoint returns dashboard preferences when set                                                0.01s  
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Auth\UserEndpointPreferencesTest > user endpoint returns dashboard preferen…  Error   
+  Class "App\Models\UserDashboardPreference" not found
+
+  at tests/Feature/Auth/UserEndpointPreferencesTest.php:32
+     28▕     }
+     29▕ 
+     30▕     public function test_user_endpoint_returns_dashboard_preferences_when_set(): void
+     31▕     {
+  ➜  32▕         $prefs = UserDashboardPreference::factory()->create([
+     33▕             'user_id' => $this->user->id,
+     34▕             'accent_color' => '#AABBCC',
+     35▕             'background_image_path' => 'dashboard_backgrounds/some_image.webp',
+     36▕         ]);
+
+  1   tests/Feature/Auth/UserEndpointPreferencesTest.php:32
+
+
+  Tests:    1 failed, 1 passed (2 assertions)
+  Duration: 0.17s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 16/16 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+                                                                                                               
+ [OK] No errors                                                                                                
+                                                                                                               
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  ......................................................
+
+  ─────────────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ......................................................................................... 54 files  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js (0)
+ ❯ src/stores/__tests__/auth.dashboard.spec.js (5)
+   ❯ Auth Store - Dashboard Preferences (5)
+     × dashboardPreference getter returns null if user or preferences are not set
+     × dashboardPreference getter returns preference object when set
+     × fetchUser action correctly populates dashboard_preference
+     × updateDashboardPreferences action calls API and updates store
+     × updateDashboardPreferences handles API error
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js [ src/views/pages/__tests__/AccountPage.dashboard.spec.js ]
+SyntaxError: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:4)
+393|                auto
+394|                name="backgroundImage"
+395|                :url="`${import.meta.env.VITE_API_URL}/api/upload`"
+   |                       ^
+396|                :customUpload="true"
+397|                :uploadHandler="uploadBackgroundImage"
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns null if user or preferences are not set
+AssertionError: expected undefined to be null
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:18:43
+     16|     const authStore = useAuthStore();
+     17|     authStore.user = null;
+     18|     expect(authStore.dashboardPreference).toBeNull();
+       |                                           ^
+     19| 
+     20|     authStore.user = { name: "Test" };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns preference object when set
+AssertionError: expected undefined to deeply equal { accent_color: '#123', …(1) }
+
+- Expected: 
+Object {
+  "accent_color": "#123",
+  "background_image_path": "path/img.webp",
+}
+
++ Received: 
+undefined
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:34:43
+     32|     };
+     33|     authStore.user = { name: "Test", dashboard_preference: prefs };
+     34|     expect(authStore.dashboardPreference).toEqual(prefs);
+       |                                           ^
+     35|   });
+     36| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > fetchUser action correctly populates dashboard_preference
+AssertionError: expected undefined to deeply equal { accent_color: '#FF0000', …(1) }
+
+- Expected: 
+Object {
+  "accent_color": "#FF0000",
+  "background_image_path": "test.webp",
+}
+
++ Received: 
+undefined
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:52:49
+     50| 
+     51|     await authStore.fetchUser();
+     52|     expect(authStore.user.dashboard_preference).toEqual(
+       |                                                 ^
+     53|       mockUserResponse.user.dashboard_preference
+     54|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > updateDashboardPreferences action calls API and updates store
+TypeError: authStore.updateDashboardPreferences is not a function
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:71:21
+     69|     api.post.mockResolvedValue({ data: apiResponse });
+     70| 
+     71|     await authStore.updateDashboardPreferences(newPreferencesPayload);
+       |                     ^
+     72| 
+     73|     expect(api.post).toHaveBeenCalledWith(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > updateDashboardPreferences handles API error
+TypeError: authStore.updateDashboardPreferences is not a function
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:85:28
+     83|     api.post.mockRejectedValue(new Error("API Error"));
+     84| 
+     85|     await expect(authStore.updateDashboardPreferences({})).rejects.toThrow(
+       |                            ^
+     86|       "API Error"
+     87|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+ Test Files  2 failed (2)
+      Tests  5 failed (5)
+   Start at  20:59:08
+   Duration  819ms (transform 218ms, setup 73ms, collect 254ms, tests 8ms, environment 541ms, prepare 82ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+
+/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/views/pages/AccountPage.vue
+  396:15  warning  Attribute ':customUpload' must be hyphenated   vue/attribute-hyphenation
+  397:15  warning  Attribute ':uploadHandler' must be hyphenated  vue/attribute-hyphenation
+  399:15  warning  Attribute 'chooseLabel' must be hyphenated     vue/attribute-hyphenation
+
+✖ 3 problems (0 errors, 3 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
