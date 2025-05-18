@@ -1,6 +1,6 @@
 <!-- /fe_velvue/src/views/pages/Account.vue -->
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import api from "@/service/apiService";
@@ -20,6 +20,11 @@ const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
 
+// Dashboard preference fields
+const accentColor = ref("");
+const backgroundImage = ref(null);
+const uploadingBackgroundImage = ref(false);
+
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
 onMounted(() => {
@@ -27,7 +32,30 @@ onMounted(() => {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
     profileImage.value = authStore.user.avatar;
+
+    if (authStore.dashboardPreference) {
+      accentColor.value = authStore.dashboardPreference.accent_color || "";
+
+      if (authStore.dashboardPreference.background_image_path) {
+        backgroundImage.value = `${import.meta.env.VITE_API_URL}/storage/${authStore.dashboardPreference.background_image_path}`;
+      }
+    }
   }
+});
+
+// Computed property to get the background image path from the full URL
+const backgroundImagePath = computed(() => {
+  if (!backgroundImage.value) return null;
+
+  // Extract the path portion from the full URL if needed
+  if (backgroundImage.value.startsWith(import.meta.env.VITE_API_URL)) {
+    return backgroundImage.value.replace(
+      `${import.meta.env.VITE_API_URL}/storage/`,
+      ""
+    );
+  }
+
+  return backgroundImage.value;
 });
 
 // If you have an "activity log" data, populate it here.
@@ -85,6 +113,40 @@ async function uploadProfileImage(event) {
   }
 }
 
+async function uploadBackgroundImage(event) {
+  const file = event.files?.[0];
+  if (!file) {
+    errorMessage.value = "No file selected. Please select an image to upload.";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("entity", "dashboard_backgrounds");
+
+  try {
+    uploadingBackgroundImage.value = true;
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.success) {
+      backgroundImage.value = `${import.meta.env.VITE_API_URL}/storage/${response.data.path}`; // Update image preview
+      successMessage.value = "Your dashboard background has been uploaded.";
+    }
+  } catch (err) {
+    errorMessage.value =
+      "Failed to upload your background image. Please try again.";
+    console.error(err);
+  } finally {
+    uploadingBackgroundImage.value = false;
+  }
+}
+
+async function removeBackgroundImage() {
+  backgroundImage.value = null;
+}
+
 async function saveProfile() {
   successMessage.value = "";
   errorMessage.value = "";
@@ -102,6 +164,24 @@ async function saveProfile() {
     await authStore.fetchUser();
   } catch (err) {
     errorMessage.value = "Failed to update your profile. Please try again.";
+    console.error(err);
+  }
+}
+
+async function saveDashboardPreferences() {
+  successMessage.value = "";
+  errorMessage.value = "";
+  try {
+    await authStore.updateDashboardPreferences({
+      accent_color: accentColor.value,
+      background_image_path: backgroundImagePath.value,
+    });
+
+    successMessage.value =
+      "Your dashboard preferences have been updated successfully.";
+  } catch (err) {
+    errorMessage.value =
+      "Failed to update your dashboard preferences. Please try again.";
     console.error(err);
   }
 }
@@ -220,6 +300,65 @@ const filtersBilling = ref({
               label="Save Changes"
               icon="pi pi-check"
               @click="saveProfile"
+            />
+          </div>
+        </div>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Background Image Preview -->
+          <div
+            class="col-span-12 md:col-span-4 flex flex-col items-center gap-4"
+          >
+            <div
+              v-if="backgroundImage"
+              class="w-full h-40 rounded-lg shadow-lg bg-cover bg-center"
+              :style="{ backgroundImage: `url(${backgroundImage})` }"
+            ></div>
+            <div
+              v-else
+              class="w-full h-40 rounded-lg shadow-lg bg-gray-200 flex items-center justify-center"
+            >
+              <span class="text-gray-500">No background image</span>
+            </div>
+
+            <div class="flex gap-2">
+              <FileUpload
+                mode="basic"
+                auto
+                name="backgroundImage"
+                accept="image/*"
+                choose-label="Upload Background"
+                custom-upload
+                :disabled="uploadingBackgroundImage"
+                @uploader="uploadBackgroundImage"
+              />
+              <Button
+                v-if="backgroundImage"
+                icon="pi pi-trash"
+                severity="danger"
+                @click="removeBackgroundImage"
+              />
+            </div>
+          </div>
+
+          <!-- Appearance Settings -->
+          <div class="col-span-12 md:col-span-8">
+            <div class="mb-6">
+              <label class="block text-sm font-medium mb-2">Accent Color</label>
+              <ColorPicker v-model="accentColor" format="hex" />
+              <small class="block mt-1 text-gray-500"
+                >This will be the primary color used throughout the
+                application.</small
+              >
+            </div>
+
+            <Button
+              label="Save Preferences"
+              icon="pi pi-check"
+              @click="saveDashboardPreferences"
             />
           </div>
         </div>

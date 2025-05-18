@@ -1,0 +1,245 @@
+gmaz@GMacBook-Air be_velvue % php artisan test --filter DashboardPreferencesTest
+
+   FAIL  Tests\Feature\Account\DashboardPreferencesTest
+  ⨯ user can set accent color preference                                                                0.14s  
+  ⨯ user can set background image preference                                                            0.02s  
+  ✓ user can update both preferences                                                                    0.01s  
+  ⨯ updating background image deletes old image and temporary record                                    0.01s  
+  ✓ user can clear accent color                                                                         0.01s  
+  ✓ user can clear background image and it deletes file                                                 0.01s  
+  ✓ accent color validation fails for invalid hex                                                       0.01s  
+  ✓ background image path validation fails for non existent temporary file                              0.01s  
+  ✓ background image path validation fails for wrong entity regex                                       0.01s  
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can set accent color preference               
+  Failed asserting that null is identical to '#123456'.
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:45
+     41▕         ]);
+     42▕ 
+     43▕         $response->assertOk()
+     44▕             ->assertJson(['success' => true])
+  ➜  45▕             ->assertJsonPath('dashboard_preference.accent_color', '#123456');
+     46▕         $this->assertDatabaseHas('user_dashboard_preferences', [
+     47▕             'user_id' => $this->user->id,
+     48▕             'accent_color' => '#123456',
+     49▕             'background_image_path' => null,
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can set background image preference           
+  Failed asserting that null is identical to 'dashboard_backgrounds/01JVJ62EPABVCQR6S4W7A8M37N.webp'.
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:63
+     59▕         ]);
+     60▕ 
+     61▕         $response->assertOk()
+     62▕             ->assertJson(['success' => true])
+  ➜  63▕             ->assertJsonPath('dashboard_preference.background_image_path', $tempImagePath);
+     64▕ 
+     65▕         $this->assertDatabaseHas('user_dashboard_preferences', [
+     66▕             'user_id' => $this->user->id,
+     67▕             'background_image_path' => $tempImagePath,
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > updating background image deletes old image and…   
+  Failed asserting that true is false.
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:102
+     98▕         $this->postJson(route('account.dashboard-preferences'), ['background_image_path' => $newTempPath])->assertOk();
+     99▕ 
+    100▕         $this->assertDatabaseHas('user_dashboard_preferences', ['user_id' => $this->user->id, 'background_image_path' => $newTempPath]);
+    101▕         $this->assertTrue(Storage::disk('public')->exists($newTempPath));
+  ➜ 102▕         $this->assertFalse(Storage::disk('public')->exists($oldTempPath)); // Old image should be deleted
+    103▕         $this->assertDatabaseMissing('temporary_uploads', ['path' => $newTempPath]); // New temp record deleted
+    104▕         $this->assertDatabaseMissing('temporary_uploads', ['path' => $oldTempPath]); // Old temp record should have been deleted earlier
+    105▕     }
+    106▕ 
+
+  1   tests/Feature/Account/DashboardPreferencesTest.php:102
+
+
+  Tests:    3 failed, 6 passed (29 assertions)
+  Duration: 0.24s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter UserEndpointPreferencesTest
+
+   PASS  Tests\Feature\Auth\UserEndpointPreferencesTest
+  ✓ user endpoint returns null dashboard preference if not set                                          0.09s  
+  ✓ user endpoint returns dashboard preferences when set                                                0.01s  
+
+  Tests:    2 passed (5 assertions)
+  Duration: 0.12s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 17/17 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ --------------------------------------------------------------------------------------------- 
+  Line   app/Http/Controllers/AccountController.php                                                   
+ ------ --------------------------------------------------------------------------------------------- 
+  :102   Access to an undefined property Illuminate\Database\Eloquent\Model::$background_image_path.  
+         🪪 property.notFound                                                                         
+         💡 Learn more: https://phpstan.org/blog/solving-phpstan-access-to-undefined-property         
+  :108   Access to an undefined property Illuminate\Database\Eloquent\Model::$background_image_path.  
+         🪪 property.notFound                                                                         
+         💡 Learn more: https://phpstan.org/blog/solving-phpstan-access-to-undefined-property         
+ ------ --------------------------------------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------------------------------------- 
+  Line   app/Models/UserDashboardPreference.php                                                           
+ ------ ------------------------------------------------------------------------------------------------- 
+  :18    PHPDoc type array<int, string> of property App\Models\UserDashboardPreference::$fillable is not  
+         covariant with PHPDoc type list<string> of overridden property                                   
+         Illuminate\Database\Eloquent\Model::$fillable.                                                   
+         🪪 property.phpDocType                                                                           
+         💡 You can fix 3rd party PHPDoc types with stub files:                                           
+         💡 https://phpstan.org/user-guide/stub-files                                                     
+ ------ ------------------------------------------------------------------------------------------------- 
+
+                                                                                                               
+ [ERROR] Found 3 errors                                                                                        
+                                                                                                               
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  ..........................⨯.............................
+
+  ─────────────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    FAIL   .......................................................................... 56 files, 1 style issue  
+  ⨯ app/Http/Controllers/AccountController.php                                              no_unused_imports  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js (5)
+   ❯ Auth Store - Dashboard Preferences (5)
+     ✓ dashboardPreference getter returns null if user or preferences are not set
+     ✓ dashboardPreference getter returns preference object when set
+     ✓ fetchUser action correctly populates dashboard_preference
+     × updateDashboardPreferences action calls API and updates store
+     ✓ updateDashboardPreferences handles API error
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js (6)
+   ❯ AccountPage.vue - Dashboard Appearance (6)
+     ✓ initializes form fields with dashboard preferences from store
+     ✓ updates accentColor ref when ColorPicker changes
+     ✓ uploadBackgroundImage calls api and updates backgroundImage ref
+     ✓ removeBackgroundImage sets backgroundImage ref to null
+     × saveDashboardPreferences calls store action with correctly formatted payload
+     × saveDashboardPreferences sends null for background_image_path if image is removed
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > updateDashboardPreferences action calls API and updates store
+AssertionError: expected { accent_color: '#FF0000', …(1) } to deeply equal { accent_color: '#00FF00', …(1) }
+
+- Expected
++ Received
+
+  Object {
+-   "accent_color": "#00FF00",
+-   "background_image_path": "new.webp",
++   "accent_color": "#FF0000",
++   "background_image_path": "test.webp",
+  }
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:77:49
+     75|       newPreferencesPayload
+     76|     );
+     77|     expect(authStore.user.dashboard_preference).toEqual(newPreferencesPayload);
+       |                                                 ^
+     78|   });
+     79| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > saveDashboardPreferences calls store action with correctly formatted payload
+AssertionError: expected "spy" to be called with arguments: [ { accent_color: '#ABCDEF', …(1) } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+-     "accent_color": "#ABCDEF",
++     "accent_color": "ABCDEF",
+      "background_image_path": "dashboard_backgrounds/new_image.webp",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:171:50
+    169| 
+    170|     // Verify that updateDashboardPreferences was called with the expected arguments
+    171|     expect(authStore.updateDashboardPreferences).toHaveBeenCalledWith({
+       |                                                  ^
+    172|       accent_color: "#ABCDEF",
+    173|       background_image_path: imagePath,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > saveDashboardPreferences sends null for background_image_path if image is removed
+AssertionError: expected "spy" to be called with arguments: [ { accent_color: '#123456', …(1) } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+-     "accent_color": "#123456",
++     "accent_color": "123456",
+      "background_image_path": null,
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:184:50
+    182|     await flushPromises();
+    183| 
+    184|     expect(authStore.updateDashboardPreferences).toHaveBeenCalledWith({
+       |                                                  ^
+    185|       accent_color: "#123456",
+    186|       background_image_path: null,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 8 passed (11)
+   Start at  20:12:20
+   Duration  1.16s (transform 691ms, setup 81ms, collect 892ms, tests 43ms, environment 544ms, prepare 79ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+
+/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/layout/AppLayout.vue
+  24:4  error  'newValue' is defined but never used  no-unused-vars
+
+/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/stores/auth.js
+  67:9  error  Unnecessary catch clause  no-useless-catch
+
+✖ 2 problems (2 errors, 0 warnings)
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+gmaz@GMacBook-Air fe_velvue % 

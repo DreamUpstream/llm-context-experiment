@@ -2,17 +2,58 @@
 import AppSidebar from "./AppSidebar.vue";
 import UserMenu from "./UserMenu.vue";
 import { useLayout } from "@/layout/composables/layout";
-import { ref, computed, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
+import { ref, computed, onMounted, watch } from "vue";
 
 // Track window width dynamically
 const windowWidth = ref(window.innerWidth);
+const authStore = useAuthStore();
 
 onMounted(() => {
   const handleResize = () => {
     windowWidth.value = window.innerWidth;
   };
   window.addEventListener("resize", handleResize);
+  applyUserCustomStyles();
   return () => window.removeEventListener("resize", handleResize);
+});
+
+// Apply user's custom styles when they change
+watch(
+  () => authStore.dashboardPreference,
+  (newValue) => {
+    applyUserCustomStyles();
+  },
+  { deep: true }
+);
+
+function applyUserCustomStyles() {
+  const preferences = authStore.dashboardPreference;
+  const root = document.documentElement;
+
+  // Apply custom accent color if defined
+  if (preferences?.accent_color) {
+    root.style.setProperty("--p-primary-500", preferences.accent_color);
+    root.style.setProperty("--p-primary-color", preferences.accent_color);
+  } else {
+    // Reset to default PrimeVue Aura theme colors
+    root.style.removeProperty("--p-primary-500");
+    root.style.removeProperty("--p-primary-color");
+  }
+}
+
+// Compute the background style based on user preferences
+const backgroundStyle = computed(() => {
+  const preferences = authStore.dashboardPreference;
+  if (preferences?.background_image_path) {
+    return {
+      backgroundImage: `url(${import.meta.env.VITE_API_URL}/storage/${preferences.background_image_path})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    };
+  }
+  return {};
 });
 
 // Determine if the hamburger button is visible
@@ -40,7 +81,7 @@ const { activeTitle, layoutConfig, isSidebarActive, toggleMenu } = useLayout();
       <!-- Header -->
 
       <!-- Page Content -->
-      <div class="layout-main p-6 bg-main-content">
+      <div class="layout-main p-6 bg-main-content" :style="backgroundStyle">
         <div
           class="flex items-center justify-between py-4 bg-main-content mt-4"
         >

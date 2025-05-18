@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TemporaryUpload;
+use App\Models\UserDashboardPreference;
 use App\Rules\TemporaryFileExists;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -78,6 +79,52 @@ class AccountController extends Controller
         $user->update([
             'password' => Hash::make($request->password),
         ]);
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    /**
+     * Update the user's dashboard preferences.
+     */
+    public function updateDashboardPreferences(Request $request): JsonResponse
+    {
+        $request->validate([
+            'accent_color' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
+            'background_image_path' => ['nullable', 'string', 'regex:/^dashboard_backgrounds\/[a-z0-9]{26}\.([a-z]++)$/i', new TemporaryFileExists],
+        ]);
+
+        $user = $request->user();
+        $preferences = $user->dashboardPreference;
+
+        // If the user wants to clear the background image, delete the file
+        if ($preferences && $preferences->background_image_path && !$request->background_image_path) {
+            Storage::disk('public')->delete($preferences->background_image_path);
+        }
+
+        // If the user is changing their background image, delete the old one
+        if (
+            $preferences && $preferences->background_image_path &&
+            $request->background_image_path &&
+            $preferences->background_image_path !== $request->background_image_path
+        ) {
+            Storage::disk('public')->delete($preferences->background_image_path);
+        }
+
+        // Create or update the user's preferences
+        $data = $request->only(['accent_color', 'background_image_path']);
+
+        if ($preferences) {
+            $preferences->update($data);
+        } else {
+            $user->dashboardPreference()->create($data);
+        }
+
+        // Delete temporary upload record if a new background was uploaded
+        if ($request->background_image_path) {
+            TemporaryUpload::where('path', $request->background_image_path)->delete();
+        }
 
         return response()->json([
             'success' => true,
