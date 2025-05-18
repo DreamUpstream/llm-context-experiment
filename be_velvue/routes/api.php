@@ -49,6 +49,7 @@ Route::prefix('api')->group(function () {
                 ->name('account.update');
             Route::post('password', [AccountController::class, 'password'])
                 ->name('account.password');
+            Route::post('/dashboard-preferences', [AccountController::class, 'updateDashboardPreferences']);
         });
 
         // File Uploads

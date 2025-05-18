@@ -83,4 +83,29 @@ class AccountController extends Controller
             'success' => true,
         ]);
     }
+
+    public function updateDashboardPreferences(Request $request)
+    {
+        $request->validate([
+            'accent_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
+            'background_image_path' => ['nullable', new TemporaryFileExists('dashboard_backgrounds')],
+        ]);
+
+        $user = $request->user();
+        $preferences = $user->dashboardPreference()->firstOrNew();
+
+        if ($request->filled('background_image_path')) {
+            // Delete old background image if exists
+            if ($preferences->background_image_path) {
+                Storage::disk('public')->delete($preferences->background_image_path);
+            }
+            // Delete the temporary upload record
+            TemporaryUpload::where('path', $request->background_image_path)->delete();
+        }
+
+        $preferences->fill($request->only(['accent_color', 'background_image_path']));
+        $preferences->save();
+
+        return response()->json(['success' => true, 'preferences' => $preferences]);
+    }
 }

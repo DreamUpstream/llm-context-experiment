@@ -1,0 +1,619 @@
+gmaz@GMacBook-Air be_velvue % php artisan test --filter DashboardPreferencesTest
+
+   FAIL  Tests\Feature\Account\DashboardPreferencesTest
+  ⨯ user can set accent color preference                                                                0.13s  
+  ⨯ user can set background image preference                                                            0.01s  
+  ⨯ user can update both preferences                                                                    0.01s  
+  ⨯ updating background image deletes old image and temporary record                                    0.01s  
+  ⨯ user can clear accent color                                                                         0.01s  
+  ⨯ user can clear background image and it deletes file                                                 0.01s  
+  ⨯ accent color validation fails for invalid hex
+  ⨯ background image path validation fails for non existent temporary file
+  ⨯ background image path validation fails for wrong entity regex                                       0.01s  
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can set accent col…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:39
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can set background…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:57
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can update both pr…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:76
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > updating background ima…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:92
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can clear accent c…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:110
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can clear backgrou…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:122
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > accent color validation…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:131
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > background image path v…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:144
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > background image path v…  RouteNotFoundException   
+  Route [account.dashboard-preferences] not defined.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:517
+    513▕             ! is_null($url = call_user_func($this->missingNamedRouteResolver, $name, $parameters, $absolute))) {
+    514▕             return $url;
+    515▕         }
+    516▕ 
+  ➜ 517▕         throw new RouteNotFoundException("Route [{$name}] not defined.");
+    518▕     }
+    519▕ 
+    520▕     /**
+    521▕      * Get the URL for a given route instance.
+
+      +2 vendor frames 
+  3   tests/Feature/Account/DashboardPreferencesTest.php:153
+
+
+  Tests:    9 failed (1 assertions)
+  Duration: 0.23s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter UserEndpointPreferencesTest
+
+   FAIL  Tests\Feature\Auth\UserEndpointPreferencesTest
+  ⨯ user endpoint returns null dashboard preference if not set                                          0.13s  
+  ⨯ user endpoint returns dashboard preferences when set                                                0.01s  
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Auth\UserEndpointPreferencesTest > user endpoint returns null dashboard preference…   
+  Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+Illuminate\Database\Eloquent\RelationNotFoundException: Call to undefined relationship [dashboardPreference] on model [App\Models\User]. in /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/RelationNotFoundException.php:35
+Stack trace:
+#0 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(828): Illuminate\Database\Eloquent\RelationNotFoundException::make(Object(App\Models\User), 'dashboardPrefer...')
+#1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Relations/Relation.php(118): Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}()
+#2 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(824): Illuminate\Database\Eloquent\Relations\Relation::noConstraints(Object(Closure))
+#3 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(798): Illuminate\Database\Eloquent\Builder->getRelation('dashboardPrefer...')
+#4 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(778): Illuminate\Database\Eloquent\Builder->eagerLoadRelation(Array, 'dashboardPrefer...', Object(Closure))
+#5 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(724): Illuminate\Database\Eloquent\Builder->eagerLoadRelations(Array)
+#6 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/app/Http/Controllers/AuthController.php(182): Illuminate\Database\Eloquent\Model->load('dashboardPrefer...')
+#7 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(47): App\Http\Controllers\AuthController->user(Object(Illuminate\Http\Request))
+#8 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Route.php(266): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\AuthController), 'user')
+#9 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Route.php(212): Illuminate\Routing\Route->runController()
+#10 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(808): Illuminate\Routing\Route->run()
+#11 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#12 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(51): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#13 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Routing\Middleware\SubstituteBindings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#14 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequestsWithRedis.php(65): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#15 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(127): Illuminate\Routing\Middleware\ThrottleRequestsWithRedis->handleRequest(Object(Illuminate\Http\Request), Object(Closure), Array)
+#16 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(89): Illuminate\Routing\Middleware\ThrottleRequests->handleRequestUsingNamedLimiter(Object(Illuminate\Http\Request), Object(Closure), 'api', Object(Closure))
+#17 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Routing\Middleware\ThrottleRequests->handle(Object(Illuminate\Http\Request), Object(Closure), 'api')
+#18 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(64): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#19 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Auth\Middleware\Authenticate->handle(Object(Illuminate\Http\Request), Object(Closure), 'sanctum')
+#20 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php(25): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#21 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful->Laravel\Sanctum\Http\Middleware\{closure}(Object(Illuminate\Http\Request))
+#22 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#23 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php(24): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#24 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful->handle(Object(Illuminate\Http\Request), Object(Closure))
+#25 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/app/Http/Middleware/JsonResponse.php(20): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#26 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\Http\Middleware\JsonResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#27 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#28 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#29 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#30 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate\Routing\Router->runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#31 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#32 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#33 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#34 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#35 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#36 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#38 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#39 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#40 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#41 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#43 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance->handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#47 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#49 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks->handle(Object(Illuminate\Http\Request), Object(Closure))
+#50 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#51 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#52 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#53 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(607): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#54 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(573): Illuminate\Foundation\Testing\TestCase->call('GET', 'http://localhos...', Array, Array, Array, Array, '[]')
+#55 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(381): Illuminate\Foundation\Testing\TestCase->json('GET', 'http://localhos...', Array, Array, 0)
+#56 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/tests/Feature/Auth/UserEndpointPreferencesTest.php(25): Illuminate\Foundation\Testing\TestCase->getJson('http://localhos...')
+#57 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestCase.php(1232): Tests\Feature\Auth\UserEndpointPreferencesTest->test_user_endpoint_returns_null_dashboard_preference_if_not_set()
+#58 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestCase.php(513): PHPUnit\Framework\TestCase->runTest()
+#59 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestRunner/TestRunner.php(87): PHPUnit\Framework\TestCase->runBare()
+#60 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestCase.php(360): PHPUnit\Framework\TestRunner->run(Object(Tests\Feature\Auth\UserEndpointPreferencesTest))
+#61 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestSuite.php(369): PHPUnit\Framework\TestCase->run()
+#62 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestSuite.php(369): PHPUnit\Framework\TestSuite->run()
+#63 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestSuite.php(369): PHPUnit\Framework\TestSuite->run()
+#64 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(64): PHPUnit\Framework\TestSuite->run()
+#65 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/TextUI/Application.php(210): PHPUnit\TextUI\TestRunner->run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#66 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/phpunit(104): PHPUnit\TextUI\Application->run(Array)
+#67 {main}
+
+----------------------------------------------------------------------------------
+
+Call to undefined relationship [dashboardPreference] on model [App\Models\User].
+
+  at tests/Feature/Auth/UserEndpointPreferencesTest.php:26
+     22▕ 
+     23▕     public function test_user_endpoint_returns_null_dashboard_preference_if_not_set(): void
+     24▕     {
+     25▕         $response = $this->getJson(route('user'));
+  ➜  26▕         $response->assertOk()
+     27▕             ->assertJsonPath('user.dashboard_preference', null);
+     28▕     }
+     29▕ 
+     30▕     public function test_user_endpoint_returns_dashboard_preferences_when_set(): void
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Auth\UserEndpointPreferencesTest > user endpoint returns dashboard preferences whe…   
+  Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+Illuminate\Database\Eloquent\RelationNotFoundException: Call to undefined relationship [dashboardPreference] on model [App\Models\User]. in /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/RelationNotFoundException.php:35
+Stack trace:
+#0 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(828): Illuminate\Database\Eloquent\RelationNotFoundException::make(Object(App\Models\User), 'dashboardPrefer...')
+#1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Relations/Relation.php(118): Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}()
+#2 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(824): Illuminate\Database\Eloquent\Relations\Relation::noConstraints(Object(Closure))
+#3 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(798): Illuminate\Database\Eloquent\Builder->getRelation('dashboardPrefer...')
+#4 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(778): Illuminate\Database\Eloquent\Builder->eagerLoadRelation(Array, 'dashboardPrefer...', Object(Closure))
+#5 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(724): Illuminate\Database\Eloquent\Builder->eagerLoadRelations(Array)
+#6 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/app/Http/Controllers/AuthController.php(182): Illuminate\Database\Eloquent\Model->load('dashboardPrefer...')
+#7 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(47): App\Http\Controllers\AuthController->user(Object(Illuminate\Http\Request))
+#8 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Route.php(266): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\AuthController), 'user')
+#9 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Route.php(212): Illuminate\Routing\Route->runController()
+#10 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(808): Illuminate\Routing\Route->run()
+#11 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#12 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(51): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#13 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Routing\Middleware\SubstituteBindings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#14 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequestsWithRedis.php(65): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#15 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(127): Illuminate\Routing\Middleware\ThrottleRequestsWithRedis->handleRequest(Object(Illuminate\Http\Request), Object(Closure), Array)
+#16 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php(89): Illuminate\Routing\Middleware\ThrottleRequests->handleRequestUsingNamedLimiter(Object(Illuminate\Http\Request), Object(Closure), 'api', Object(Closure))
+#17 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Routing\Middleware\ThrottleRequests->handle(Object(Illuminate\Http\Request), Object(Closure), 'api')
+#18 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(64): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#19 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Auth\Middleware\Authenticate->handle(Object(Illuminate\Http\Request), Object(Closure), 'sanctum')
+#20 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php(25): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#21 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful->Laravel\Sanctum\Http\Middleware\{closure}(Object(Illuminate\Http\Request))
+#22 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#23 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php(24): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#24 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful->handle(Object(Illuminate\Http\Request), Object(Closure))
+#25 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/app/Http/Middleware/JsonResponse.php(20): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#26 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\Http\Middleware\JsonResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#27 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#28 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(807): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#29 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(786): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#30 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(750): Illuminate\Routing\Router->runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#31 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Routing/Router.php(739): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#32 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(201): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#33 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#34 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#35 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#36 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#38 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#39 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#40 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#41 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(110): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#43 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance->handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(62): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#47 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#49 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks->handle(Object(Illuminate\Http\Request), Object(Closure))
+#50 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#51 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(176): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#52 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(145): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#53 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(607): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#54 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(573): Illuminate\Foundation\Testing\TestCase->call('GET', 'http://localhos...', Array, Array, Array, Array, '[]')
+#55 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MakesHttpRequests.php(381): Illuminate\Foundation\Testing\TestCase->json('GET', 'http://localhos...', Array, Array, 0)
+#56 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/tests/Feature/Auth/UserEndpointPreferencesTest.php(38): Illuminate\Foundation\Testing\TestCase->getJson('http://localhos...')
+#57 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestCase.php(1232): Tests\Feature\Auth\UserEndpointPreferencesTest->test_user_endpoint_returns_dashboard_preferences_when_set()
+#58 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestCase.php(513): PHPUnit\Framework\TestCase->runTest()
+#59 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestRunner/TestRunner.php(87): PHPUnit\Framework\TestCase->runBare()
+#60 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestCase.php(360): PHPUnit\Framework\TestRunner->run(Object(Tests\Feature\Auth\UserEndpointPreferencesTest))
+#61 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestSuite.php(369): PHPUnit\Framework\TestCase->run()
+#62 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestSuite.php(369): PHPUnit\Framework\TestSuite->run()
+#63 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/Framework/TestSuite.php(369): PHPUnit\Framework\TestSuite->run()
+#64 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(64): PHPUnit\Framework\TestSuite->run()
+#65 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/src/TextUI/Application.php(210): PHPUnit\TextUI\TestRunner->run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#66 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/vendor/phpunit/phpunit/phpunit(104): PHPUnit\TextUI\Application->run(Array)
+#67 {main}
+
+----------------------------------------------------------------------------------
+
+Call to undefined relationship [dashboardPreference] on model [App\Models\User].
+
+  at tests/Feature/Auth/UserEndpointPreferencesTest.php:40
+     36▕         ]);
+     37▕ 
+     38▕         $response = $this->getJson(route('user'));
+     39▕ 
+  ➜  40▕         $response->assertOk()
+     41▕             ->assertJsonPath('user.dashboard_preference.accent_color', '#AABBCC')
+     42▕             ->assertJsonPath('user.dashboard_preference.background_image_path', 'dashboard_backgrounds/some_image.webp');
+     43▕     }
+     44▕ }
+
+
+  Tests:    2 failed (2 assertions)
+  Duration: 0.18s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 17/17 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ ------------------------------------------------------------------------------------------------------ 
+  Line   app/Http/Controllers/AccountController.php                                                            
+ ------ ------------------------------------------------------------------------------------------------------ 
+  :91    Class App\Rules\TemporaryFileExists does not have a constructor and must be instantiated without any  
+         parameters.                                                                                           
+         🪪 new.noConstructor                                                                                  
+  :95    Call to an undefined method App\Models\User::dashboardPreference().                                   
+         🪪 method.notFound                                                                                    
+ ------ ------------------------------------------------------------------------------------------------------ 
+
+
+                                                                                                               
+ [ERROR] Found 2 errors                                                                                        
+                                                                                                               
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  ........................................................
+
+  ─────────────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ......................................................................................... 56 files  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+stderr | src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > saveDashboardPreferences sends null for background_image_path if image is removed
+TypeError: Cannot read properties of undefined (reading 'data')
+    at Proxy.saveDashboardPreferences (/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/views/pages/AccountPage.vue:127:52)
+    at /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/views/pages/__tests__/AccountPage.dashboard.spec.js:181:5
+    at runTest (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:781:11)
+    at runSuite (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+    at run (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:105:3)
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js (5)
+   ❯ Auth Store - Dashboard Preferences (5)
+     × dashboardPreference getter returns null if user or preferences are not set
+     × dashboardPreference getter returns preference object when set
+     × fetchUser action correctly populates dashboard_preference
+     × updateDashboardPreferences action calls API and updates store
+     × updateDashboardPreferences handles API error
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js (6)
+   ❯ AccountPage.vue - Dashboard Appearance (6)
+     × initializes form fields with dashboard preferences from store
+     ✓ updates accentColor ref when ColorPicker changes
+     × uploadBackgroundImage calls api and updates backgroundImage ref
+     × removeBackgroundImage sets backgroundImage ref to null
+     × saveDashboardPreferences calls store action with correctly formatted payload
+     × saveDashboardPreferences sends null for background_image_path if image is removed
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns null if user or preferences are not set
+AssertionError: expected undefined to be null
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:18:43
+     16|     const authStore = useAuthStore();
+     17|     authStore.user = null;
+     18|     expect(authStore.dashboardPreference).toBeNull();
+       |                                           ^
+     19| 
+     20|     authStore.user = { name: "Test" };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns preference object when set
+AssertionError: expected undefined to deeply equal { accent_color: '#123', …(1) }
+
+- Expected: 
+Object {
+  "accent_color": "#123",
+  "background_image_path": "path/img.webp",
+}
+
++ Received: 
+undefined
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:34:43
+     32|     };
+     33|     authStore.user = { name: "Test", dashboard_preference: prefs };
+     34|     expect(authStore.dashboardPreference).toEqual(prefs);
+       |                                           ^
+     35|   });
+     36| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > fetchUser action correctly populates dashboard_preference
+AssertionError: expected undefined to deeply equal { accent_color: '#FF0000', …(1) }
+
+- Expected: 
+Object {
+  "accent_color": "#FF0000",
+  "background_image_path": "test.webp",
+}
+
++ Received: 
+undefined
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:52:49
+     50| 
+     51|     await authStore.fetchUser();
+     52|     expect(authStore.user.dashboard_preference).toEqual(
+       |                                                 ^
+     53|       mockUserResponse.user.dashboard_preference
+     54|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > updateDashboardPreferences action calls API and updates store
+TypeError: authStore.updateDashboardPreferences is not a function
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:71:21
+     69|     api.post.mockResolvedValue({ data: apiResponse });
+     70| 
+     71|     await authStore.updateDashboardPreferences(newPreferencesPayload);
+       |                     ^
+     72| 
+     73|     expect(api.post).toHaveBeenCalledWith(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > updateDashboardPreferences handles API error
+TypeError: authStore.updateDashboardPreferences is not a function
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:85:28
+     83|     api.post.mockRejectedValue(new Error("API Error"));
+     84| 
+     85|     await expect(authStore.updateDashboardPreferences({})).rejects.toThrow(
+       |                            ^
+     86|       "API Error"
+     87|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > initializes form fields with dashboard preferences from store
+AssertionError: expected 'initial/bg.webp' to be 'http://localhost:8000/storage/initial…' // Object.is equality
+
+- Expected
++ Received
+
+- http://localhost:8000/storage/initial/bg.webp
++ initial/bg.webp
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:119:40
+    117|       initialUser.dashboard_preference.accent_color
+    118|     );
+    119|     expect(wrapper.vm.backgroundImage).toBe(
+       |                                        ^
+    120|       `${API_URL}/storage/${initialUser.dashboard_preference.background_image_path}`
+    121|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > uploadBackgroundImage calls api and updates backgroundImage ref
+TypeError: wrapper.vm.uploadBackgroundImage is not a function
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:139:22
+    137| 
+    138|     // Trigger method directly
+    139|     await wrapper.vm.uploadBackgroundImage(uploaderEventData);
+       |                      ^
+    140|     await flushPromises();
+    141| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > removeBackgroundImage sets backgroundImage ref to null
+TypeError: wrapper.vm.removeBackgroundImage is not a function
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:155:22
+    153| 
+    154|   it("removeBackgroundImage sets backgroundImage ref to null", async () => {
+    155|     await wrapper.vm.removeBackgroundImage();
+       |                      ^
+    156|     expect(wrapper.vm.backgroundImage).toBeNull();
+    157|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > saveDashboardPreferences calls store action with correctly formatted payload
+AssertionError: expected "spy" to be called with arguments: [ { accent_color: '#ABCDEF', …(1) } ]
+
+Received: 
+
+
+
+Number of calls: 0
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:171:50
+    169| 
+    170|     // Verify that updateDashboardPreferences was called with the expected arguments
+    171|     expect(authStore.updateDashboardPreferences).toHaveBeenCalledWith({
+       |                                                  ^
+    172|       accent_color: "#ABCDEF",
+    173|       background_image_path: imagePath,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > saveDashboardPreferences sends null for background_image_path if image is removed
+AssertionError: expected "spy" to be called with arguments: [ { accent_color: '#123456', …(1) } ]
+
+Received: 
+
+
+
+Number of calls: 0
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:184:50
+    182|     await flushPromises();
+    183| 
+    184|     expect(authStore.updateDashboardPreferences).toHaveBeenCalledWith({
+       |                                                  ^
+    185|       accent_color: "#123456",
+    186|       background_image_path: null,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+ Test Files  2 failed (2)
+      Tests  10 failed | 1 passed (11)
+   Start at  21:10:39
+   Duration  1.13s (transform 667ms, setup 74ms, collect 846ms, tests 47ms, environment 532ms, prepare 88ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

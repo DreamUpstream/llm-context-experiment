@@ -6,6 +6,7 @@ import { useAuthStore } from "@/stores/auth";
 import api from "@/service/apiService";
 import { FilterMatchMode } from "@primevue/core/api";
 import { useConfirm } from "primevue/useconfirm";
+import ColorPicker from "primevue/colorpicker";
 
 const confirm = useConfirm();
 
@@ -19,6 +20,13 @@ const profileImage = ref(null);
 const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
+
+const accentColor = ref(
+  authStore.user?.dashboard_preference?.accent_color || ""
+);
+const backgroundImage = ref(
+  authStore.user?.dashboard_preference?.background_image_path || ""
+);
 
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
@@ -102,6 +110,24 @@ async function saveProfile() {
     await authStore.fetchUser();
   } catch (err) {
     errorMessage.value = "Failed to update your profile. Please try again.";
+    console.error(err);
+  }
+}
+
+async function saveDashboardPreferences() {
+  successMessage.value = "";
+  errorMessage.value = "";
+  try {
+    const response = await api.post("/account/dashboard-preferences", {
+      accent_color: accentColor.value,
+      background_image_path: backgroundImage.value,
+    });
+
+    successMessage.value = "Dashboard preferences updated successfully.";
+    authStore.user.dashboard_preference = response.data.preferences;
+  } catch (err) {
+    errorMessage.value =
+      "Failed to update dashboard preferences. Please try again.";
     console.error(err);
   }
 }
@@ -319,6 +345,50 @@ const filtersBilling = ref({
             @click="deleteAccount"
           />
         </div>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <div class="grid grid-cols-12 gap-6">
+          <div class="col-span-12 md:col-span-6">
+            <label class="block text-sm font-medium mb-1">Accent Color</label>
+            <ColorPicker v-model="accentColor" class="w-full" />
+          </div>
+          <div class="col-span-12 md:col-span-6">
+            <label class="block text-sm font-medium mb-1"
+              >Background Image</label
+            >
+            <FileUpload
+              mode="basic"
+              auto
+              name="backgroundImage"
+              accept="image/*"
+              choose-label="Upload Background"
+              custom-upload
+              :disabled="uploadingImage"
+              @uploader="uploadProfileImage"
+            />
+            <div v-if="backgroundImage" class="mt-2">
+              <img
+                :src="backgroundImage"
+                alt="Background Preview"
+                class="w-full h-32 object-cover"
+              />
+              <Button
+                label="Remove Image"
+                icon="pi pi-times"
+                class="mt-2"
+                @click="backgroundImage = ''"
+              />
+            </div>
+          </div>
+        </div>
+        <Button
+          label="Save Preferences"
+          icon="pi pi-check"
+          class="mt-4"
+          @click="saveDashboardPreferences"
+        />
       </TabPanel>
     </Tabs>
   </div>
