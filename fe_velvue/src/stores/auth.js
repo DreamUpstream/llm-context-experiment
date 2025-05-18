@@ -15,6 +15,12 @@ export const useAuthStore = defineStore("auth", {
       try {
         const { data } = await api.get("/user");
         this.user = data.user;
+
+        // Ensure dashboard preferences are included
+        if (data.user.dashboard_preference) {
+          this.user.dashboard_preference = data.user.dashboard_preference;
+        }
+
         return data.user;
       } catch (error) {
         this.user = null;

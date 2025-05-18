@@ -3,6 +3,7 @@ import AppSidebar from "./AppSidebar.vue";
 import UserMenu from "./UserMenu.vue";
 import { useLayout } from "@/layout/composables/layout";
 import { ref, computed, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 // Track window width dynamically
 const windowWidth = ref(window.innerWidth);
@@ -22,6 +23,16 @@ const isSidebarVisible = computed(() => {
 });
 
 const { activeTitle, layoutConfig, isSidebarActive, toggleMenu } = useLayout();
+const authStore = useAuthStore();
+
+onMounted(() => {
+  if (authStore.user?.dashboard_preference?.accent_color) {
+    document.documentElement.style.setProperty(
+      "--p-primary-color",
+      authStore.user.dashboard_preference.accent_color
+    );
+  }
+});
 </script>
 
 <template>
@@ -40,7 +51,15 @@ const { activeTitle, layoutConfig, isSidebarActive, toggleMenu } = useLayout();
       <!-- Header -->
 
       <!-- Page Content -->
-      <div class="layout-main p-6 bg-main-content">
+      <div
+        class="layout-main p-6 bg-main-content"
+        :style="{
+          backgroundImage: authStore.user?.dashboard_preference
+            ?.background_image_path
+            ? `url(${authStore.user.dashboard_preference.background_image_path})`
+            : undefined,
+        }"
+      >
         <div
           class="flex items-center justify-between py-4 bg-main-content mt-4"
         >

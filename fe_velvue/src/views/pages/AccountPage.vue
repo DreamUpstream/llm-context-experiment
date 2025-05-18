@@ -51,6 +51,14 @@ const billingHistory = ref([
   { id: "INV-003", amount: 29.99, date: "2025-03-01", status: "Pending" },
 ]);
 
+// Dashboard Appearance fields
+const accentColor = ref(
+  authStore.user?.dashboard_preference?.accent_color || ""
+);
+const backgroundImage = ref(
+  authStore.user?.dashboard_preference?.background_image_path || ""
+);
+
 async function uploadProfileImage(event) {
   console.log("Upload event has been triggered", event);
   const file = event.files?.[0];
@@ -103,6 +111,19 @@ async function saveProfile() {
   } catch (err) {
     errorMessage.value = "Failed to update your profile. Please try again.";
     console.error(err);
+  }
+}
+
+async function saveDashboardPreferences() {
+  try {
+    const response = await api.post("/api/account/dashboard-preferences", {
+      accent_color: accentColor.value,
+      background_image_path: backgroundImage.value,
+    });
+    authStore.user.dashboard_preference = response.data.dashboard_preference;
+    successMessage.value = "Dashboard preferences updated successfully!";
+  } catch (error) {
+    errorMessage.value = "Failed to update dashboard preferences.";
   }
 }
 
@@ -300,6 +321,48 @@ const filtersBilling = ref({
           <Column field="date" header="Date" sortable />
           <Column field="status" header="Status" />
         </DataTable>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <div class="grid grid-cols-12 gap-6">
+          <div class="col-span-12 md:col-span-6">
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Accent Color</label>
+              <InputText
+                v-model="accentColor"
+                type="color"
+                class="w-full p-2 border rounded"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1"
+                >Background Image</label
+              >
+              <FileUpload
+                mode="basic"
+                name="backgroundImage"
+                accept="image/*"
+                choose-label="Select Image"
+                custom-upload
+                @uploader="uploadBackgroundImage"
+                class="w-full"
+              />
+              <img
+                v-if="backgroundImage"
+                :src="backgroundImage"
+                alt="Background Preview"
+                class="mt-2 rounded border"
+                style="max-height: 200px; object-fit: cover"
+              />
+            </div>
+            <Button
+              label="Save Preferences"
+              icon="pi pi-check"
+              @click="saveDashboardPreferences"
+            />
+          </div>
+        </div>
       </TabPanel>
 
       <!-- DANGER ZONE TAB -->

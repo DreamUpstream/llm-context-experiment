@@ -83,4 +83,41 @@ class AccountController extends Controller
             'success' => true,
         ]);
     }
+
+    /**
+     * Update the user's dashboard preferences.
+     */
+    public function updateDashboardPreferences(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'accent_color' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'background_image_path' => ['nullable', 'string', new TemporaryFileExists],
+        ]);
+
+        $preferences = $user->dashboardPreference()->firstOrNew();
+
+        // Handle background image
+        if ($request->background_image_path) {
+            if ($preferences->background_image_path) {
+                Storage::disk('public')->delete($preferences->background_image_path);
+            }
+            $preferences->background_image_path = $request->background_image_path;
+            TemporaryUpload::where('path', $request->background_image_path)->delete();
+        } elseif ($preferences->background_image_path) {
+            Storage::disk('public')->delete($preferences->background_image_path);
+            $preferences->background_image_path = null;
+        }
+
+        // Handle accent color
+        $preferences->accent_color = $request->accent_color;
+
+        $preferences->save();
+
+        return response()->json([
+            'success' => true,
+            'dashboard_preference' => $preferences,
+        ]);
+    }
 }
