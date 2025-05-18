@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Account;
 
+use App\Models\TemporaryUpload;
 use App\Models\User;
 use App\Models\UserDashboardPreference;
-use App\Models\TemporaryUpload;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -27,9 +27,10 @@ class DashboardPreferencesTest extends TestCase
 
     private function createTemporaryUploadedFile(string $entity, string $filename = 'test_image.webp'): string
     {
-        $path = "$entity/" . Str::ulid()->toBase32() . ".webp";
+        $path = "$entity/" . Str::ulid()->toBase32() . '.webp';
         UploadedFile::fake()->image($filename)->storeAs($entity, basename($path), 'public');
         TemporaryUpload::create(['path' => $path]);
+
         return $path;
     }
 
