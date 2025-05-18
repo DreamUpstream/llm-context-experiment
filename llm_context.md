@@ -26,6 +26,10 @@ Project Velvue is a full-stack SaaS boilerplate application designed with a deco
     - Main SCSS entry point: `/fe_velvue/src/assets/styles.scss`.
     - Layout styles: `/fe_velvue/src/assets/layout/` (variables, mixins, core styles).
     - CSS variables derived from PrimeVue presets.
+  - The application uses PrimeVue with the Aura theme. The primary color for the application is aliased in `/fe_velvue/src/assets/layout/variables/_common.scss`:
+    - :root {
+      --primary-color: var(--p-primary-color); /_ Application's alias is p-primary-color _/
+      }
 - **State Management**: Pinia (`pinia: ^2.3.0`) for global state management.
   - Example store: `/fe_velvue/src/stores/auth.js` for authentication state (user, loading, isLoggedIn).
 - **Routing**: Vue Router (`vue-router: ^4.5.0`) for client-side navigation.
