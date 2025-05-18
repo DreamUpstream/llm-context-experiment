@@ -1,0 +1,84 @@
+Implement Feature: User-Customizable Dashboard Aesthetics in Velvue
+
+
+
+
+
+
+
+Objective: Provide authenticated Velvue users with the ability to personalize their dashboard by setting a custom primary accent color for the application's theme and a unique background image for their main dashboard area.
+
+
+
+Core Requirements:
+
+
+
+Backend (Laravel - be_velvue):
+
+
+
+Data Model: Introduce a new Eloquent model (e.g., UserDashboardPreference) and corresponding database migration to store user-specific accent_color (nullable string, for hex values) and background_image_path (nullable string). This should have a one-to-one relationship with the User model.p
+
+
+
+Preference API Endpoint: Create a new, authenticated API endpoint within the scope of AccountController.php (e.g., route to AccountController@updateDashboardPreferences) for saving/updating these user preferences.
+
+
+
+Image Handling Protocol:
+
+
+
+When a background_image_path is submitted, it must reference a file already processed by Velvue's standard temporary upload system (as used by UploadController.php and involving the TemporaryUpload model). Use the entity parameter with a value like 'dashboard_backgrounds' for these uploads.
+
+
+
+Server-side validation must use the project's App\Rules\TemporaryFileExists rule for the submitted background_image_path.
+
+
+
+Upon successfully associating a new background image, the corresponding TemporaryUpload record must be deleted. Any previously existing background image file for that user's preference must also be deleted from storage. If the user clears their background image, the stored file must be deleted.
+
+
+
+Input validation is required for accent_color (must be a valid hex string).
+
+
+
+User Data Service: The AuthController.php method that returns authenticated user data must be updated to include the user's dashboard_preference object (or null if no preferences are set).
+
+
+
+Frontend (Vue.js - fe_velvue):
+
+
+
+Settings Interface (AccountPage.vue): Integrate a "Dashboard Appearance" section.
+
+
+
+Provide a ColorPicker for accent_color.
+
+
+
+Implement FileUpload for background_image, configured to use the /api/upload endpoint with the entity: 'dashboard_backgrounds' parameter. The UI should allow image preview and removal.
+
+
+
+Include a mechanism to save these preferences by calling the new backend API endpoint.
+
+
+
+State Management (auth.js - Pinia): Ensure dashboard preferences are fetched with user data, stored reactively within the authStore (e.g., as user.dashboard_preference), and updated upon successful save.
+
+
+
+Dynamic Styling Application (AppLayout.vue):
+
+
+
+Accent Color: The selected accent_color must dynamically override the PrimeVue Aura theme's core primary color CSS variable (e.g., --p-primary-color or its specific base shade like --p-primary-500). This change should be applied globally to document.documentElement.style. Ensure the style reverts to the theme's default if the user clears their preference.
+
+Background Image: Display the background_image_path on the main dashboard content area. 
+

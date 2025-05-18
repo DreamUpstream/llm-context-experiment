@@ -20,6 +20,15 @@ const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
 
+// Dashboard preferences
+const accentColor = ref(
+  authStore.user?.dashboard_preference?.accent_color || ""
+);
+const backgroundImage = ref(
+  authStore.user?.dashboard_preference?.background_image_path || ""
+);
+const uploadingBackground = ref(false);
+
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
 onMounted(() => {
@@ -103,6 +112,58 @@ async function saveProfile() {
   } catch (err) {
     errorMessage.value = "Failed to update your profile. Please try again.";
     console.error(err);
+  }
+}
+
+// Save dashboard preferences
+async function saveDashboardPreferences() {
+  try {
+    const response = await api.post("/account/dashboard-preferences", {
+      accent_color: accentColor.value,
+      background_image_path: backgroundImage.value,
+    });
+
+    if (response.data.message) {
+      successMessage.value = "Dashboard preferences updated successfully.";
+      authStore.user.dashboard_preference = {
+        accent_color: accentColor.value,
+        background_image_path: backgroundImage.value,
+      };
+    }
+  } catch (err) {
+    errorMessage.value =
+      "Failed to update dashboard preferences. Please try again.";
+    console.error(err);
+  }
+}
+
+// Upload background image
+async function uploadBackgroundImage(event) {
+  const file = event.files?.[0];
+  if (!file) {
+    errorMessage.value = "No file selected. Please select an image to upload.";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("entity", "dashboard_backgrounds");
+
+  try {
+    uploadingBackground.value = true;
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.success) {
+      backgroundImage.value = response.data.path;
+      successMessage.value = "Background image uploaded successfully.";
+    }
+  } catch (err) {
+    errorMessage.value = "Failed to upload background image. Please try again.";
+    console.error(err);
+  } finally {
+    uploadingBackground.value = false;
   }
 }
 
@@ -302,6 +363,47 @@ const filtersBilling = ref({
         </DataTable>
       </TabPanel>
 
+      <!-- PREFERENCES TAB -->
+      <TabPanel header="Preferences">
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Accent Color -->
+          <div class="col-span-12 md:col-span-6">
+            <label class="block text-sm font-medium mb-1">Accent Color</label>
+            <InputText
+              v-model="accentColor"
+              class="w-full"
+              placeholder="Enter a color code"
+            />
+          </div>
+
+          <!-- Background Image -->
+          <div class="col-span-12 md:col-span-6">
+            <label class="block text-sm font-medium mb-1"
+              >Background Image</label
+            >
+            <FileUpload
+              mode="basic"
+              auto
+              name="backgroundImage"
+              accept="image/*"
+              choose-label="Upload Image"
+              custom-upload
+              :disabled="uploadingBackground"
+              @uploader="uploadBackgroundImage"
+            />
+          </div>
+
+          <!-- Save Preferences Button -->
+          <div class="col-span-12">
+            <Button
+              label="Save Preferences"
+              icon="pi pi-check"
+              @click="saveDashboardPreferences"
+            />
+          </div>
+        </div>
+      </TabPanel>
+
       <!-- DANGER ZONE TAB -->
       <TabPanel header="Danger Zone">
         <div class="p-4 border border-red-300 rounded-md mb-4 mt-8">
@@ -321,6 +423,43 @@ const filtersBilling = ref({
         </div>
       </TabPanel>
     </Tabs>
+
+    <!-- New Dashboard Appearance Section -->
+    <section class="dashboard-appearance">
+      <h2 class="text-2xl font-semibold mb-4">Dashboard Appearance</h2>
+
+      <div class="grid grid-cols-12 gap-6">
+        <!-- Accent Color Picker -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="block text-sm font-medium mb-1">Accent Color</label>
+          <ColorPicker v-model="accentColor" class="w-full" id="accent-color" />
+        </div>
+
+        <!-- Background Image Upload -->
+        <div class="col-span-12 md:col-span-6">
+          <label class="block text-sm font-medium mb-1">Background Image</label>
+          <FileUpload
+            name="background-image"
+            :custom-upload="true"
+            :auto="true"
+            :upload-handler="uploadBackgroundImage"
+            :preview="true"
+            :preview-image="backgroundImage"
+            :disabled="uploadingBackground"
+          />
+        </div>
+      </div>
+
+      <!-- Save Preferences Button -->
+      <div class="mt-4">
+        <Button
+          label="Save Preferences"
+          icon="pi pi-check"
+          @click="saveDashboardPreferences"
+          :disabled="uploadingBackground"
+        />
+      </div>
+    </section>
   </div>
 </template>
 

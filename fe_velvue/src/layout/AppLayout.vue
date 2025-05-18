@@ -3,6 +3,7 @@ import AppSidebar from "./AppSidebar.vue";
 import UserMenu from "./UserMenu.vue";
 import { useLayout } from "@/layout/composables/layout";
 import { ref, computed, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 // Track window width dynamically
 const windowWidth = ref(window.innerWidth);
@@ -22,6 +23,30 @@ const isSidebarVisible = computed(() => {
 });
 
 const { activeTitle, layoutConfig, isSidebarActive, toggleMenu } = useLayout();
+const authStore = useAuthStore();
+
+onMounted(() => {
+  if (authStore.user?.dashboard_preference) {
+    const { accent_color, background_image_path } =
+      authStore.user.dashboard_preference;
+
+    if (accent_color) {
+      document.documentElement.style.setProperty(
+        "--p-primary-color",
+        accent_color
+      );
+    }
+
+    if (background_image_path) {
+      const mainContent = document.querySelector(".layout-main");
+      if (mainContent) {
+        mainContent.style.backgroundImage = `url(${import.meta.env.VITE_API_URL}/storage/${background_image_path})`;
+        mainContent.style.backgroundSize = "cover";
+        mainContent.style.backgroundRepeat = "no-repeat";
+      }
+    }
+  }
+});
 </script>
 
 <template>
