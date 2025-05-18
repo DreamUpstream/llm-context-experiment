@@ -1,0 +1,176 @@
+gmaz@GMacBook-Air be_velvue % php artisan test --filter DashboardPreferencesTest
+
+   FAIL  Tests\Feature\Account\DashboardPreferencesTest
+  ✓ user can set accent color preference                                                        0.16s  
+  ✓ user can set background image preference                                                    0.01s  
+  ✓ user can update both preferences                                                            0.01s  
+  ⨯ updating background image deletes old image and temporary record                            0.02s  
+  ✓ user can clear accent color                                                                 0.01s  
+  ✓ user can clear background image and it deletes file                                         0.01s  
+  ✓ accent color validation fails for invalid hex                                               0.01s  
+  ✓ background image path validation fails for non existent temporary file                      0.01s  
+  ✓ background image path validation fails for wrong entity regex                               0.01s  
+  ───────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > updating background image deletes old i…   
+  Failed asserting that true is false.
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:102
+     98▕         $this->postJson(route('account.dashboard-preferences'), ['background_image_path' => $newTempPath])->assertOk();
+     99▕ 
+    100▕         $this->assertDatabaseHas('user_dashboard_preferences', ['user_id' => $this->user->id, 'background_image_path' => $newTempPath]);
+    101▕         $this->assertTrue(Storage::disk('public')->exists($newTempPath));
+  ➜ 102▕         $this->assertFalse(Storage::disk('public')->exists($oldTempPath)); // Old image should be deleted
+    103▕         $this->assertDatabaseMissing('temporary_uploads', ['path' => $newTempPath]); // New temp record deleted
+    104▕         $this->assertDatabaseMissing('temporary_uploads', ['path' => $oldTempPath]); // Old temp record should have been deleted earlier
+    105▕     }
+    106▕ 
+
+  1   tests/Feature/Account/DashboardPreferencesTest.php:102
+
+
+  Tests:    1 failed, 8 passed (33 assertions)
+  Duration: 0.28s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter UserEndpointPreferencesTest
+
+   PASS  Tests\Feature\Auth\UserEndpointPreferencesTest
+  ✓ user endpoint returns null dashboard preference if not set                                  0.11s  
+  ✓ user endpoint returns dashboard preferences when set                                        0.01s  
+
+  Tests:    2 passed (5 assertions)
+  Duration: 0.14s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 18/18 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ --------------------------------------------------------------------------------------------- 
+  Line   app/Http/Controllers/AccountController.php                                                   
+ ------ --------------------------------------------------------------------------------------------- 
+  :102   Access to an undefined property Illuminate\Database\Eloquent\Model::$background_image_path.  
+         🪪 property.notFound                                                                         
+         💡 Learn more:                                                                               
+            https://phpstan.org/blog/solving-phpstan-access-to-undefined-property                     
+  :113   Access to an undefined property Illuminate\Database\Eloquent\Model::$background_image_path.  
+         🪪 property.notFound                                                                         
+         💡 Learn more:                                                                               
+            https://phpstan.org/blog/solving-phpstan-access-to-undefined-property                     
+ ------ --------------------------------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------------------------------------------------- 
+  Line   app/Models/UserDashboardPreference.php                                                       
+ ------ --------------------------------------------------------------------------------------------- 
+  :18    PHPDoc type array<int, string> of property App\Models\UserDashboardPreference::$fillable is  
+         not covariant with PHPDoc type list<string> of overridden property                           
+         Illuminate\Database\Eloquent\Model::$fillable.                                               
+         🪪 property.phpDocType                                                                       
+         💡 You can fix 3rd party PHPDoc types with stub files:                                       
+         💡 https://phpstan.org/user-guide/stub-files                                                 
+ ------ --------------------------------------------------------------------------------------------- 
+
+                                                                                                       
+ [ERROR] Found 3 errors                                                                                
+                                                                                                       
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  ..........................⨯..⨯...........................
+
+  ─────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    FAIL   ................................................................. 57 files, 2 style issues  
+  ⨯ app/Http/Controllers/AccountController.php      new_with_parentheses, trailing_comma_in_multiline  
+  ⨯ app/Rules/ValidHexColor.php                                           blank_line_before_statement  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js (0)
+ ❯ src/stores/__tests__/auth.dashboard.spec.js (5)
+   ❯ Auth Store - Dashboard Preferences (5)
+     × dashboardPreference getter returns null if user or preferences are not set
+     × dashboardPreference getter returns preference object when set
+     ✓ fetchUser action correctly populates dashboard_preference
+     ✓ updateDashboardPreferences action calls API and updates store
+     ✓ updateDashboardPreferences handles API error
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js [ src/views/pages/__tests__/AccountPage.dashboard.spec.js ]
+SyntaxError: Error parsing JavaScript expression: import.meta may appear only with 'sourceType: "module"' (1:4)
+372|                  <div v-if="backgroundImage" class="mb-2">
+373|                    <img
+374|                      :src="`${import.meta.env.VITE_API_URL}/storage/${backgroundImage}`"
+   |                             ^
+375|                      alt="Background Preview"
+376|                      class="max-w-full h-auto max-h-32 rounded border border-gray-300"
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns null if user or preferences are not set
+AssertionError: expected undefined to be null
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:18:43
+     16|     const authStore = useAuthStore();
+     17|     authStore.user = null;
+     18|     expect(authStore.dashboardPreference).toBeNull();
+       |                                           ^
+     19| 
+     20|     authStore.user = { name: "Test" };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns preference object when set
+AssertionError: expected undefined to deeply equal { accent_color: '#123', …(1) }
+
+- Expected: 
+Object {
+  "accent_color": "#123",
+  "background_image_path": "path/img.webp",
+}
+
++ Received: 
+undefined
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:34:43
+     32|     };
+     33|     authStore.user = { name: "Test", dashboard_preference: prefs };
+     34|     expect(authStore.dashboardPreference).toEqual(prefs);
+       |                                           ^
+     35|   });
+     36| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 3 passed (5)
+   Start at  22:22:45
+   Duration  865ms (transform 246ms, setup 73ms, collect 281ms, tests 8ms, environment 530ms, prepare 85ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+
+/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/views/pages/AccountPage.vue
+  382:19  warning  Attribute ':maxFileSize' must be hyphenated  vue/attribute-hyphenation
+  383:19  warning  Attribute 'chooseLabel' must be hyphenated   vue/attribute-hyphenation
+
+✖ 2 problems (0 errors, 2 warnings)
+  0 errors and 2 warnings potentially fixable with the `--fix` option.
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\TemporaryUpload;
+use App\Models\UserDashboardPreference;
 use App\Rules\TemporaryFileExists;
+use App\Rules\ValidHexColor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -81,6 +83,51 @@ class AccountController extends Controller
 
         return response()->json([
             'success' => true,
+        ]);
+    }
+
+    /**
+     * Update the user's dashboard preferences.
+     */
+    public function updateDashboardPreferences(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $validatedData = $request->validate([
+            'accent_color' => ['nullable', 'string', new ValidHexColor()],
+            'background_image_path' => [
+                'nullable',
+                'string',
+                'regex:/^dashboard_backgrounds\/[a-z0-9]{26}\.([a-z]++)$/i',
+                Rule::excludeIf($user->dashboardPreference && $request->background_image_path === $user->dashboardPreference->background_image_path),
+                new TemporaryFileExists
+            ],
+        ]);
+
+        // Handle existing preference update or create new one
+        $preference = $user->dashboardPreference ?? new UserDashboardPreference(['user_id' => $user->id]);
+
+        // Handle background image deletion if it exists and is being changed or removed
+        if (
+            $preference->exists &&
+            $preference->background_image_path &&
+            $preference->background_image_path !== ($validatedData['background_image_path'] ?? null)
+        ) {
+            Storage::disk('public')->delete($preference->background_image_path);
+        }
+
+        // Update preferences
+        $preference->fill($validatedData);
+        $preference->save();
+
+        // If a new background image was uploaded, delete the temporary upload record
+        if (!empty($validatedData['background_image_path'])) {
+            TemporaryUpload::where('path', $validatedData['background_image_path'])->delete();
+        }
+
+        return response()->json([
+            'success' => true,
+            'dashboard_preference' => $preference->fresh(),
         ]);
     }
 }

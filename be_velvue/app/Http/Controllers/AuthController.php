@@ -180,6 +180,9 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
+        // Load dashboard preferences if they exist
+        $dashboardPreference = $user->dashboardPreference;
+
         return response()->json([
             'success' => true,
             'user' => [
@@ -187,6 +190,7 @@ class AuthController extends Controller
                 'must_verify_email' => $user->mustVerifyEmail(),
                 'has_password' => (bool) $user->password,
                 'providers' => $user->userProviders()->select('name')->pluck('name'),
+                'dashboard_preference' => $dashboardPreference,
             ],
         ]);
     }

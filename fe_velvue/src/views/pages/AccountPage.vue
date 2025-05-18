@@ -20,6 +20,13 @@ const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
 
+// Dashboard appearance fields
+const accentColor = ref("");
+const backgroundImage = ref(null);
+const uploadingBackgroundImage = ref(false);
+const dashboardSuccessMessage = ref("");
+const dashboardErrorMessage = ref("");
+
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
 onMounted(() => {
@@ -27,6 +34,14 @@ onMounted(() => {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
     profileImage.value = authStore.user.avatar;
+
+    // Load dashboard preferences if they exist
+    if (authStore.user.dashboard_preference) {
+      accentColor.value =
+        authStore.user.dashboard_preference.accent_color || "";
+      backgroundImage.value =
+        authStore.user.dashboard_preference.background_image_path || null;
+    }
   }
 });
 
@@ -103,6 +118,70 @@ async function saveProfile() {
   } catch (err) {
     errorMessage.value = "Failed to update your profile. Please try again.";
     console.error(err);
+  }
+}
+
+// Upload background image
+async function uploadBackgroundImage(event) {
+  const file = event.files[0];
+  if (!file) return;
+
+  uploadingBackgroundImage.value = true;
+  dashboardSuccessMessage.value = "";
+  dashboardErrorMessage.value = "";
+
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("entity", "dashboard_backgrounds");
+
+    const response = await api.post("/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    if (response.data.success) {
+      backgroundImage.value = response.data.path;
+      dashboardSuccessMessage.value = "Background image uploaded successfully.";
+    }
+  } catch (error) {
+    dashboardErrorMessage.value = "Failed to upload image. Please try again.";
+    console.error(error);
+  } finally {
+    uploadingBackgroundImage.value = false;
+  }
+}
+
+// Save dashboard preferences
+async function saveDashboardPreferences() {
+  dashboardSuccessMessage.value = "";
+  dashboardErrorMessage.value = "";
+
+  try {
+    await authStore.updateDashboardPreferences({
+      accent_color: accentColor.value,
+      background_image_path: backgroundImage.value,
+    });
+
+    dashboardSuccessMessage.value =
+      "Dashboard preferences updated successfully.";
+  } catch (error) {
+    dashboardErrorMessage.value =
+      "Failed to update dashboard preferences. Please try again.";
+    console.error(error);
+  }
+}
+
+// Reset dashboard preferences
+function resetDashboardPreferences() {
+  if (authStore.user?.dashboard_preference) {
+    accentColor.value = authStore.user.dashboard_preference.accent_color || "";
+    backgroundImage.value =
+      authStore.user.dashboard_preference.background_image_path || null;
+  } else {
+    accentColor.value = "";
+    backgroundImage.value = null;
   }
 }
 
@@ -245,6 +324,99 @@ const filtersBilling = ref({
           <Column field="ip" header="IP Address" sortable />
           <Column field="location" header="Location" sortable />
         </DataTable>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <Message
+          v-if="dashboardSuccessMessage"
+          severity="success"
+          icon="pi pi-check-circle"
+          class="mb-4"
+        >
+          {{ dashboardSuccessMessage }}
+        </Message>
+        <Message
+          v-if="dashboardErrorMessage"
+          severity="error"
+          icon="pi pi-times-circle"
+          class="mb-4"
+        >
+          {{ dashboardErrorMessage }}
+        </Message>
+
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Color Picker -->
+          <div class="col-span-12 md:col-span-6">
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">Accent Color</label>
+              <div class="flex items-center gap-2">
+                <ColorPicker v-model="accentColor" class="w-full" />
+                <small class="text-gray-600">{{
+                  accentColor || "No custom color selected"
+                }}</small>
+              </div>
+              <small class="text-gray-500 block mt-1">
+                Select a custom accent color for the application theme
+              </small>
+            </div>
+          </div>
+
+          <!-- Background Image -->
+          <div class="col-span-12 md:col-span-6">
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1"
+                >Dashboard Background</label
+              >
+              <div class="flex flex-col gap-2">
+                <div v-if="backgroundImage" class="mb-2">
+                  <img
+                    :src="`${import.meta.env.VITE_API_URL}/storage/${backgroundImage}`"
+                    alt="Background Preview"
+                    class="max-w-full h-auto max-h-32 rounded border border-gray-300"
+                  />
+                </div>
+                <FileUpload
+                  mode="basic"
+                  accept="image/*"
+                  :maxFileSize="5000000"
+                  chooseLabel="Browse"
+                  class="mb-2"
+                  :auto="true"
+                  :disabled="uploadingBackgroundImage"
+                  @uploader="uploadBackgroundImage"
+                />
+                <small class="text-gray-500 block mt-1">
+                  Upload an image to use as your dashboard background (max 5MB)
+                </small>
+                <div v-if="backgroundImage" class="mt-2">
+                  <Button
+                    label="Remove Background"
+                    icon="pi pi-times"
+                    severity="danger"
+                    text
+                    @click="backgroundImage = null"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-4">
+          <Button
+            label="Save Preferences"
+            icon="pi pi-check"
+            @click="saveDashboardPreferences"
+          />
+          <Button
+            label="Reset"
+            icon="pi pi-refresh"
+            severity="secondary"
+            outlined
+            @click="resetDashboardPreferences"
+          />
+        </div>
       </TabPanel>
 
       <!-- PAYMENT METHODS TAB -->

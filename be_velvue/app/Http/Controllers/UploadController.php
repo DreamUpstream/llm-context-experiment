@@ -13,7 +13,7 @@ class UploadController extends Controller
     {
         $request->validate([
             'image' => ['required', 'image', 'max:5120'],
-            'entity' => ['required', 'string', 'in:avatars'],
+            'entity' => ['required', 'string', 'in:avatars,dashboard_backgrounds'],
             'width' => 'nullable|integer|min:1|max:1920',
             'height' => 'nullable|integer|min:1|max:1920',
         ]);
