@@ -1,6 +1,6 @@
 <!-- /fe_velvue/src/views/pages/Account.vue -->
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import api from "@/service/apiService";
@@ -11,6 +11,7 @@ const confirm = useConfirm();
 
 const router = useRouter();
 const authStore = useAuthStore();
+const apiUrl = import.meta.env.VITE_API_URL;
 
 // Basic user form fields
 const nameField = ref("");
@@ -20,6 +21,13 @@ const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
 
+// Dashboard appearance fields
+const accentColor = ref("");
+const backgroundImage = ref("");
+const uploadingBackgroundImage = ref(false);
+const dashboardPreferenceSuccess = ref(false);
+const dashboardPreferenceError = ref("");
+
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
 onMounted(() => {
@@ -27,7 +35,23 @@ onMounted(() => {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
     profileImage.value = authStore.user.avatar;
+
+    // Set dashboard preferences if they exist
+    if (authStore.user.dashboard_preference) {
+      accentColor.value =
+        authStore.user.dashboard_preference.accent_color || "";
+      backgroundImage.value =
+        authStore.user.dashboard_preference.background_image_path || "";
+    }
   }
+});
+
+// Background image URL for preview
+const backgroundImageUrl = computed(() => {
+  if (backgroundImage.value) {
+    return `${apiUrl}/storage/${backgroundImage.value}`;
+  }
+  return null;
 });
 
 // If you have an "activity log" data, populate it here.
@@ -82,6 +106,60 @@ async function uploadProfileImage(event) {
     console.error(err);
   } finally {
     uploadingImage.value = false;
+  }
+}
+
+async function uploadBackgroundImage(event) {
+  const file = event.files?.[0];
+  if (!file) {
+    dashboardPreferenceError.value =
+      "No file selected. Please select an image to upload.";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("entity", "dashboard_backgrounds");
+
+  try {
+    uploadingBackgroundImage.value = true;
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.success) {
+      backgroundImage.value = response.data.path;
+      dashboardPreferenceSuccess.value = true;
+      dashboardPreferenceError.value = "";
+    }
+  } catch (err) {
+    dashboardPreferenceError.value =
+      "Failed to upload background image. Please try again.";
+    console.error(err);
+  } finally {
+    uploadingBackgroundImage.value = false;
+  }
+}
+
+async function removeBackgroundImage() {
+  backgroundImage.value = "";
+}
+
+async function saveDashboardPreferences() {
+  dashboardPreferenceSuccess.value = false;
+  dashboardPreferenceError.value = "";
+
+  try {
+    await authStore.updateDashboardPreferences({
+      accent_color: accentColor.value || null,
+      background_image_path: backgroundImage.value || null,
+    });
+
+    dashboardPreferenceSuccess.value = true;
+  } catch (err) {
+    dashboardPreferenceError.value =
+      "Failed to update dashboard preferences. Please try again.";
+    console.error(err);
   }
 }
 
@@ -220,6 +298,89 @@ const filtersBilling = ref({
               label="Save Changes"
               icon="pi pi-check"
               @click="saveProfile"
+            />
+          </div>
+        </div>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <Message
+          v-if="dashboardPreferenceSuccess"
+          severity="success"
+          icon="pi pi-check"
+          class="mb-4"
+        >
+          Your dashboard preferences have been updated successfully.
+        </Message>
+        <Message
+          v-if="dashboardPreferenceError"
+          severity="error"
+          icon="pi pi-times-circle"
+          class="mb-4"
+        >
+          {{ dashboardPreferenceError }}
+        </Message>
+
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Accent Color -->
+          <div class="col-span-12 md:col-span-6">
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2">Accent Color</label>
+              <ColorPicker v-model="accentColor" format="hex" />
+              <small class="block mt-1 text-xs text-gray-500"
+                >This color will be used as the primary accent color throughout
+                the application.</small
+              >
+            </div>
+          </div>
+
+          <!-- Background Image -->
+          <div class="col-span-12 md:col-span-6">
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2"
+                >Dashboard Background Image</label
+              >
+
+              <!-- Image preview -->
+              <div v-if="backgroundImage" class="mb-3">
+                <img
+                  :src="backgroundImageUrl"
+                  class="w-full max-h-40 object-cover rounded-md shadow-sm mb-2"
+                  alt="Background Preview"
+                />
+                <Button
+                  icon="pi pi-times"
+                  size="small"
+                  severity="danger"
+                  label="Remove"
+                  @click="removeBackgroundImage"
+                />
+              </div>
+
+              <FileUpload
+                mode="basic"
+                auto
+                name="backgroundImage"
+                accept="image/*"
+                choose-label="Upload Background"
+                custom-upload
+                :disabled="uploadingBackgroundImage"
+                @uploader="uploadBackgroundImage"
+              />
+              <small class="block mt-1 text-xs text-gray-500"
+                >This image will be used as the background for your dashboard
+                content area.</small
+              >
+            </div>
+          </div>
+
+          <!-- Save Button -->
+          <div class="col-span-12 flex justify-end">
+            <Button
+              label="Save Preferences"
+              icon="pi pi-check"
+              @click="saveDashboardPreferences"
             />
           </div>
         </div>

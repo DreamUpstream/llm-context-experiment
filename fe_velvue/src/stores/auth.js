@@ -51,5 +51,26 @@ export const useAuthStore = defineStore("auth", {
         this.loading = false;
       }
     },
+
+    async updateDashboardPreferences(preferences) {
+      this.loading = true;
+      try {
+        const response = await api.post(
+          "/account/dashboard-preferences",
+          preferences
+        );
+        if (response.data.success) {
+          this.user.dashboard_preference = response.data.dashboard_preference;
+        }
+        return response.data;
+      } catch (error) {
+        if (error.response && error.response.data.errors) {
+          throw error.response.data.errors;
+        }
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });

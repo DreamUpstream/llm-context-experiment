@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\TemporaryUpload;
+use App\Models\UserDashboardPreference;
+use App\Rules\HexColor;
 use App\Rules\TemporaryFileExists;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -81,6 +83,60 @@ class AccountController extends Controller
 
         return response()->json([
             'success' => true,
+        ]);
+    }
+
+    /**
+     * Update the user's dashboard preferences.
+     */
+    public function updateDashboardPreferences(Request $request): JsonResponse
+    {
+        $request->validate([
+            'accent_color' => ['nullable', 'string', new HexColor],
+            'background_image_path' => [
+                'nullable',
+                'string',
+                Rule::excludeIf(function () use ($request) {
+                    $user = $request->user();
+                    $preference = $user->dashboardPreference;
+                    return $preference && $request->background_image_path === $preference->background_image_path;
+                }),
+                'regex:/^dashboard_backgrounds\/[a-z0-9]{26}\.([a-z]++)$/i',
+                new TemporaryFileExists
+            ],
+        ]);
+
+        $user = $request->user();
+        $preference = $user->dashboardPreference;
+
+        // Delete old background image if it's being replaced or removed
+        if (
+            $preference &&
+            $preference->background_image_path &&
+            Str::startsWith($preference->background_image_path, 'dashboard_backgrounds/') &&
+            $preference->background_image_path !== $request->background_image_path
+        ) {
+            Storage::disk('public')->delete($preference->background_image_path);
+        }
+
+        // Create or update preference
+        $data = $request->only(['accent_color', 'background_image_path']);
+
+        if ($preference) {
+            $preference->update($data);
+        } else {
+            $preference = new UserDashboardPreference($data);
+            $user->dashboardPreference()->save($preference);
+        }
+
+        // Delete temporary upload record
+        if ($request->background_image_path) {
+            TemporaryUpload::where('path', $request->background_image_path)->delete();
+        }
+
+        return response()->json([
+            'success' => true,
+            'dashboard_preference' => $preference->refresh(),
         ]);
     }
 }
