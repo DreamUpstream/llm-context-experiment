@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TemporaryUpload;
+use App\Models\UserDashboardPreference;
 use App\Rules\TemporaryFileExists;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -81,6 +82,49 @@ class AccountController extends Controller
 
         return response()->json([
             'success' => true,
+        ]);
+    }
+
+    /**
+     * Update the user's dashboard preferences.
+     */
+    public function updateDashboardPreferences(Request $request): JsonResponse
+    {
+        $request->validate([
+            'accent_color' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
+            'background_image_path' => ['nullable', 'string', Rule::when($request->filled('background_image_path'), ['regex:/^dashboard_backgrounds\/[a-z0-9]{26}\.([a-z]++)$/i', new TemporaryFileExists])],
+        ]);
+
+        $user = $request->user();
+        $preference = UserDashboardPreference::firstOrNew(['user_id' => $user->id]);
+
+        // Handle background image
+        if ($request->background_image_path !== null && $request->background_image_path !== $preference->background_image_path) {
+            // If there was a previous background image, delete it
+            if ($preference->background_image_path && Str::startsWith($preference->background_image_path, 'dashboard_backgrounds/')) {
+                Storage::disk('public')->delete($preference->background_image_path);
+            }
+
+            // Set the new background image path
+            $preference->background_image_path = $request->background_image_path;
+
+            // Delete the temporary upload record
+            TemporaryUpload::where('path', $request->background_image_path)->delete();
+        } elseif ($request->background_image_path === null && $preference->background_image_path) {
+            // User wants to remove the background image
+            Storage::disk('public')->delete($preference->background_image_path);
+            $preference->background_image_path = null;
+        }
+
+        // Set accent color
+        $preference->accent_color = $request->accent_color;
+
+        // Save preferences
+        $preference->save();
+
+        return response()->json([
+            'success' => true,
+            'dashboard_preference' => $preference,
         ]);
     }
 }

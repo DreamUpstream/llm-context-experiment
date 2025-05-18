@@ -20,6 +20,13 @@ const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
 
+// Dashboard preference fields
+const accentColor = ref(null);
+const backgroundImage = ref(null);
+const uploadingBackgroundImage = ref(false);
+const dashboardSuccessMessage = ref("");
+const dashboardErrorMessage = ref("");
+
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
 onMounted(() => {
@@ -27,6 +34,15 @@ onMounted(() => {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
     profileImage.value = authStore.user.avatar;
+
+    // Load dashboard preferences if available
+    if (authStore.dashboardPreference) {
+      accentColor.value = authStore.dashboardPreference.accent_color;
+
+      if (authStore.dashboardPreference.background_image_path) {
+        backgroundImage.value = `${import.meta.env.VITE_API_URL}/storage/${authStore.dashboardPreference.background_image_path}`;
+      }
+    }
   }
 });
 
@@ -85,6 +101,38 @@ async function uploadProfileImage(event) {
   }
 }
 
+async function uploadBackgroundImage(event) {
+  const file = event.files?.[0];
+  if (!file) {
+    dashboardErrorMessage.value =
+      "No file selected. Please select an image to upload.";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("entity", "dashboard_backgrounds");
+
+  try {
+    uploadingBackgroundImage.value = true;
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.success) {
+      backgroundImage.value = `${import.meta.env.VITE_API_URL}/storage/${response.data.path}`;
+      dashboardSuccessMessage.value =
+        "Background image uploaded successfully. Don't forget to save your changes.";
+    }
+  } catch (err) {
+    dashboardErrorMessage.value =
+      "Failed to upload background image. Please try again.";
+    console.error(err);
+  } finally {
+    uploadingBackgroundImage.value = false;
+  }
+}
+
 async function saveProfile() {
   successMessage.value = "";
   errorMessage.value = "";
@@ -104,6 +152,45 @@ async function saveProfile() {
     errorMessage.value = "Failed to update your profile. Please try again.";
     console.error(err);
   }
+}
+
+async function saveDashboardPreferences() {
+  dashboardSuccessMessage.value = "";
+  dashboardErrorMessage.value = "";
+
+  // Extract path from the background image URL if it exists
+  let backgroundImagePath = null;
+  if (backgroundImage.value) {
+    const apiUrl = import.meta.env.VITE_API_URL + "/storage/";
+    if (backgroundImage.value.startsWith(apiUrl)) {
+      backgroundImagePath = backgroundImage.value.substring(apiUrl.length);
+    }
+  }
+
+  // Ensure accent color has # prefix to match backend validation
+  let formattedAccentColor = null;
+  if (accentColor.value) {
+    formattedAccentColor = accentColor.value.startsWith("#")
+      ? accentColor.value
+      : `#${accentColor.value}`;
+  }
+
+  try {
+    await authStore.updateDashboardPreferences({
+      accent_color: formattedAccentColor,
+      background_image_path: backgroundImagePath,
+    });
+
+    dashboardSuccessMessage.value = "Dashboard preferences saved successfully.";
+  } catch (err) {
+    dashboardErrorMessage.value =
+      "Failed to save dashboard preferences. Please try again.";
+    console.error(err);
+  }
+}
+
+function removeBackgroundImage() {
+  backgroundImage.value = null;
 }
 
 // Delete account
@@ -222,6 +309,97 @@ const filtersBilling = ref({
               @click="saveProfile"
             />
           </div>
+        </div>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <Message
+          v-if="dashboardSuccessMessage"
+          severity="success"
+          icon="pi pi-check"
+          class="mb-4"
+        >
+          {{ dashboardSuccessMessage }}
+        </Message>
+        <Message
+          v-if="dashboardErrorMessage"
+          severity="error"
+          icon="pi pi-times-circle"
+          class="mb-4"
+        >
+          {{ dashboardErrorMessage }}
+        </Message>
+
+        <div class="grid grid-cols-12 gap-6">
+          <!-- Accent Color -->
+          <div class="col-span-12 md:col-span-6">
+            <h3 class="text-lg font-semibold mb-4">Accent Color</h3>
+            <div class="flex flex-col gap-4">
+              <label class="block text-sm font-medium"
+                >Select a primary accent color</label
+              >
+              <div class="flex items-center gap-4">
+                <ColorPicker
+                  v-model="accentColor"
+                  default-color="#3B82F6"
+                  format="hex"
+                />
+                <span v-if="accentColor">{{ accentColor }}</span>
+                <span v-else class="text-gray-500">Default</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Background Image -->
+          <div class="col-span-12 md:col-span-6">
+            <h3 class="text-lg font-semibold mb-4">Background Image</h3>
+            <div class="flex flex-col gap-4">
+              <div v-if="backgroundImage" class="mb-4">
+                <label class="block text-sm font-medium mb-2"
+                  >Current Background</label
+                >
+                <div class="relative h-48 w-full rounded-lg overflow-hidden">
+                  <img
+                    :src="backgroundImage"
+                    class="w-full h-full object-cover"
+                  />
+                  <Button
+                    icon="pi pi-times"
+                    class="absolute top-2 right-2"
+                    rounded
+                    severity="danger"
+                    @click="removeBackgroundImage"
+                  />
+                </div>
+              </div>
+
+              <FileUpload
+                mode="basic"
+                auto
+                name="backgroundImage"
+                accept="image/*"
+                :choose-label="
+                  backgroundImage ? 'Change Background' : 'Add Background'
+                "
+                custom-upload
+                :disabled="uploadingBackgroundImage"
+                @uploader="uploadBackgroundImage"
+              />
+
+              <small class="text-gray-500">
+                Recommended size: 1920x1080px. Max size: 5MB.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <Button
+            label="Save Dashboard Preferences"
+            icon="pi pi-check"
+            @click="saveDashboardPreferences"
+          />
         </div>
       </TabPanel>
 

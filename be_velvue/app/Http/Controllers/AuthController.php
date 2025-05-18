@@ -179,6 +179,7 @@ class AuthController extends Controller
     public function user(Request $request): JsonResponse
     {
         $user = $request->user();
+        $user->load('dashboardPreference');
 
         return response()->json([
             'success' => true,
@@ -187,6 +188,7 @@ class AuthController extends Controller
                 'must_verify_email' => $user->mustVerifyEmail(),
                 'has_password' => (bool) $user->password,
                 'providers' => $user->userProviders()->select('name')->pluck('name'),
+                'dashboard_preference' => $user->dashboardPreference,
             ],
         ]);
     }

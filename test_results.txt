@@ -1,0 +1,63 @@
+
+   PASS  Tests\Feature\Account\DashboardPreferencesTest
+  ✓ user can set accent color preference                                                                0.17s  
+  ✓ user can set background image preference                                                            0.01s  
+  ✓ user can update both preferences                                                                    0.01s  
+  ✓ updating background image deletes old image and temporary record                                    0.01s  
+  ✓ user can clear accent color                                                                         0.01s  
+  ✓ user can clear background image and it deletes file                                                 0.01s  
+  ✓ accent color validation fails for invalid hex                                                       0.01s  
+  ✓ background image path validation fails for non existent temporary file                              0.01s  
+  ✓ background image path validation fails for wrong entity regex                                       0.01s  
+
+  Tests:    9 passed (35 assertions)
+  Duration: 0.28s
+
+
+   PASS  Tests\Feature\Auth\UserEndpointPreferencesTest
+  ✓ user endpoint returns null dashboard preference if not set                                          0.09s  
+  ✓ user endpoint returns dashboard preferences when set                                                0.01s  
+
+  Tests:    2 passed (5 assertions)
+  Duration: 0.12s
+
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 17/17 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+                                                                                                               
+ [OK] No errors                                                                                                
+                                                                                                               
+
+
+  ........................................................
+
+  ─────────────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ......................................................................................... 56 files  
+
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+ ✓ src/stores/__tests__/auth.dashboard.spec.js (5)
+ ✓ src/views/pages/__tests__/AccountPage.dashboard.spec.js (6)
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  19:46:47
+   Duration  1.09s (transform 668ms, setup 78ms, collect 877ms, tests 31ms, environment 543ms, prepare 81ms)
+
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

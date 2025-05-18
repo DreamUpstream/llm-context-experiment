@@ -8,6 +8,7 @@ export const useAuthStore = defineStore("auth", {
   }),
   getters: {
     isLoggedIn: (state) => !!state.user,
+    dashboardPreference: (state) => state.user?.dashboard_preference || null,
   },
   actions: {
     async fetchUser() {
@@ -47,6 +48,30 @@ export const useAuthStore = defineStore("auth", {
         this.user = null;
       } catch (error) {
         console.error(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async updateDashboardPreferences(preferences) {
+      this.loading = true;
+      try {
+        const { data } = await api.post(
+          "/account/dashboard-preferences",
+          preferences
+        );
+        if (data.success && data.dashboard_preference) {
+          if (!this.user.dashboard_preference) {
+            this.user.dashboard_preference = {};
+          }
+          this.user.dashboard_preference = data.dashboard_preference;
+        }
+        return data;
+      } catch (error) {
+        if (error.response && error.response.data.errors) {
+          throw error.response.data.errors;
+        }
+        throw error;
       } finally {
         this.loading = false;
       }
