@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TemporaryUpload;
+use App\Models\UserDashboardPreference;
 use App\Rules\TemporaryFileExists;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -81,6 +82,49 @@ class AccountController extends Controller
 
         return response()->json([
             'success' => true,
+        ]);
+    }
+
+    /**
+     * Update the user's dashboard preferences.
+     */
+    public function updateDashboardPreferences(Request $request): JsonResponse
+    {
+        $request->validate([
+            'accent_color' => ['nullable', 'string', 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'],
+            'background_image_path' => ['nullable', 'string', new TemporaryFileExists],
+        ]);
+
+        $user = $request->user();
+        $preference = $user->dashboardPreference ?? new UserDashboardPreference(['user_id' => $user->id]);
+
+        // Handle background image
+        if ($request->has('background_image_path') && $request->background_image_path !== $preference->background_image_path) {
+            // Delete old background image if it exists
+            if ($preference->background_image_path) {
+                Storage::disk('public')->delete($preference->background_image_path);
+            }
+
+            // Set new background image if provided, otherwise set to null
+            $preference->background_image_path = $request->background_image_path ?: null;
+
+            // If new image path provided, delete from temporary uploads
+            if ($request->background_image_path) {
+                TemporaryUpload::where('path', $request->background_image_path)->delete();
+            }
+        }
+
+        // Set accent color
+        if ($request->has('accent_color')) {
+            $preference->accent_color = $request->accent_color;
+        }
+
+        // Save or update preference
+        $user->dashboardPreference()->save($preference);
+
+        return response()->json([
+            'success' => true,
+            'dashboard_preference' => $preference,
         ]);
     }
 }

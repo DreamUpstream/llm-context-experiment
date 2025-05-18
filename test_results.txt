@@ -1,0 +1,348 @@
+gmaz@GMacBook-Air be_velvue % php artisan test --filter DashboardPreferencesTest
+
+   FAIL  Tests\Feature\Account\DashboardPreferencesTest
+  ✓ user can set accent color preference                                                        0.16s  
+  ✓ user can set background image preference                                                    0.01s  
+  ✓ user can update both preferences                                                            0.01s  
+  ⨯ updating background image deletes old image and temporary record                            0.02s  
+  ⨯ user can clear accent color
+  ⨯ user can clear background image and it deletes file
+  ✓ accent color validation fails for invalid hex                                               0.01s  
+  ✓ background image path validation fails for non existent temporary file                      0.01s  
+  ⨯ background image path validation fails for wrong entity regex                               0.01s  
+  ───────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > updating background image deletes old i…   
+  Failed asserting that true is false.
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:102
+     98▕         $this->postJson(route('account.dashboard-preferences'), ['background_image_path' => $newTempPath])->assertOk();
+     99▕ 
+    100▕         $this->assertDatabaseHas('user_dashboard_preferences', ['user_id' => $this->user->id, 'background_image_path' => $newTempPath]);
+    101▕         $this->assertTrue(Storage::disk('public')->exists($newTempPath));
+  ➜ 102▕         $this->assertFalse(Storage::disk('public')->exists($oldTempPath)); // Old image should be deleted
+    103▕         $this->assertDatabaseMissing('temporary_uploads', ['path' => $newTempPath]); // New temp record deleted
+    104▕         $this->assertDatabaseMissing('temporary_uploads', ['path' => $oldTempPath]); // Old temp record should have been deleted earlier
+    105▕     }
+    106▕ 
+
+  1   tests/Feature/Account/DashboardPreferencesTest.php:102
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can clear…   BadMethodCallException   
+  Call to undefined method App\Models\UserDashboardPreference::factory()
+
+  at vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php:67
+     63▕      * @throws \BadMethodCallException
+     64▕      */
+     65▕     protected static function throwBadMethodCallException($method)
+     66▕     {
+  ➜  67▕         throw new BadMethodCallException(sprintf(
+     68▕             'Call to undefined method %s::%s()', static::class, $method
+     69▕         ));
+     70▕     }
+     71▕ }
+
+      +4 vendor frames 
+  5   tests/Feature/Account/DashboardPreferencesTest.php:109
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > user can clear…   BadMethodCallException   
+  Call to undefined method App\Models\UserDashboardPreference::factory()
+
+  at vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php:67
+     63▕      * @throws \BadMethodCallException
+     64▕      */
+     65▕     protected static function throwBadMethodCallException($method)
+     66▕     {
+  ➜  67▕         throw new BadMethodCallException(sprintf(
+     68▕             'Call to undefined method %s::%s()', static::class, $method
+     69▕         ));
+     70▕     }
+     71▕ }
+
+      +4 vendor frames 
+  5   tests/Feature/Account/DashboardPreferencesTest.php:119
+
+  ───────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Account\DashboardPreferencesTest > background image path validation fails…    
+  Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.
+
+  at tests/Feature/Account/DashboardPreferencesTest.php:154
+    150▕     public function test_background_image_path_validation_fails_for_wrong_entity_regex(): void
+    151▕     {
+    152▕         $tempImagePath = $this->createTemporaryUploadedFile('avatars'); // Wrong entity
+    153▕         $response = $this->postJson(route('account.dashboard-preferences'), ['background_image_path' => $tempImagePath]);
+  ➜ 154▕         $response->assertStatus(422);
+    155▕         $errors = collect($response->json('errors'));
+    156▕         $this->assertTrue($errors->contains('path', 'background_image_path'));
+    157▕     }
+    158▕ }
+
+
+  Tests:    4 failed, 5 passed (26 assertions)
+  Duration: 0.27s
+
+gmaz@GMacBook-Air be_velvue % php artisan test --filter UserEndpointPreferencesTest
+
+   FAIL  Tests\Feature\Auth\UserEndpointPreferencesTest
+  ✓ user endpoint returns null dashboard preference if not set                                  0.12s  
+  ⨯ user endpoint returns dashboard preferences when set                                        0.02s  
+  ───────────────────────────────────────────────────────────────────────────────────────────────────  
+   FAILED  Tests\Feature\Auth\UserEndpointPreferencesTest > user endpoint r…  BadMethodCallException   
+  Call to undefined method App\Models\UserDashboardPreference::factory()
+
+  at vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php:67
+     63▕      * @throws \BadMethodCallException
+     64▕      */
+     65▕     protected static function throwBadMethodCallException($method)
+     66▕     {
+  ➜  67▕         throw new BadMethodCallException(sprintf(
+     68▕             'Call to undefined method %s::%s()', static::class, $method
+     69▕         ));
+     70▕     }
+     71▕ }
+
+      +4 vendor frames 
+  5   tests/Feature/Auth/UserEndpointPreferencesTest.php:32
+
+
+  Tests:    1 failed, 1 passed (2 assertions)
+  Duration: 0.18s
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/phpstan analyse
+Note: Using configuration file /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/be_velvue/phpstan.neon.
+ 17/17 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ --------------------------------------------------------------------------------------------- 
+  Line   app/Http/Controllers/AccountController.php                                                   
+ ------ --------------------------------------------------------------------------------------------- 
+  :102   Access to an undefined property Illuminate\Database\Eloquent\Model::$background_image_path.  
+         🪪 property.notFound                                                                         
+         💡 Learn more:                                                                               
+            https://phpstan.org/blog/solving-phpstan-access-to-undefined-property                     
+  :104   Access to an undefined property Illuminate\Database\Eloquent\Model::$background_image_path.  
+         🪪 property.notFound                                                                         
+         💡 Learn more:                                                                               
+            https://phpstan.org/blog/solving-phpstan-access-to-undefined-property                     
+  :119   Access to an undefined property Illuminate\Database\Eloquent\Model::$accent_color.           
+         🪪 property.notFound                                                                         
+         💡 Learn more:                                                                               
+            https://phpstan.org/blog/solving-phpstan-access-to-undefined-property                     
+ ------ --------------------------------------------------------------------------------------------- 
+
+
+                                                                                                       
+ [ERROR] Found 3 errors                                                                                
+                                                                                                       
+
+gmaz@GMacBook-Air be_velvue % ./vendor/bin/pint --test
+
+  ........................................................
+
+  ─────────────────────────────────────────────────────────────────────────────────────────── Laravel  
+    PASS   ................................................................................. 56 files  
+
+gmaz@GMacBook-Air be_velvue % cd ..
+gmaz@GMacBook-Air Velvue-Laravel-Vue-SaaS-Starter % cd fe_velvue 
+gmaz@GMacBook-Air fe_velvue % npm run test
+
+> velvue@1.0.0 test
+> vitest run
+
+ Vitest  "deps.inline" is deprecated. If you rely on vite-node directly, use "server.deps.inline" instead. Otherwise, consider using "deps.optimizer.web.include"
+
+ RUN  v1.6.1 /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue
+
+stderr | src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > updateDashboardPreferences handles API error
+Failed to update dashboard preferences: Error: API Error
+    at /Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/stores/__tests__/auth.dashboard.spec.js:83:32
+    at file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js (5)
+   ❯ Auth Store - Dashboard Preferences (5)
+     × dashboardPreference getter returns null if user or preferences are not set
+     × dashboardPreference getter returns preference object when set
+     ✓ fetchUser action correctly populates dashboard_preference
+     ✓ updateDashboardPreferences action calls API and updates store
+     ✓ updateDashboardPreferences handles API error
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js (6)
+   ❯ AccountPage.vue - Dashboard Appearance (6)
+     × initializes form fields with dashboard preferences from store
+     ✓ updates accentColor ref when ColorPicker changes
+     × uploadBackgroundImage calls api and updates backgroundImage ref
+     × removeBackgroundImage sets backgroundImage ref to null
+     × saveDashboardPreferences calls store action with correctly formatted payload
+     × saveDashboardPreferences sends null for background_image_path if image is removed
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns null if user or preferences are not set
+AssertionError: expected undefined to be null
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:18:43
+     16|     const authStore = useAuthStore();
+     17|     authStore.user = null;
+     18|     expect(authStore.dashboardPreference).toBeNull();
+       |                                           ^
+     19| 
+     20|     authStore.user = { name: "Test" };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/stores/__tests__/auth.dashboard.spec.js > Auth Store - Dashboard Preferences > dashboardPreference getter returns preference object when set
+AssertionError: expected undefined to deeply equal { accent_color: '#123', …(1) }
+
+- Expected: 
+Object {
+  "accent_color": "#123",
+  "background_image_path": "path/img.webp",
+}
+
++ Received: 
+undefined
+
+ ❯ src/stores/__tests__/auth.dashboard.spec.js:34:43
+     32|     };
+     33|     authStore.user = { name: "Test", dashboard_preference: prefs };
+     34|     expect(authStore.dashboardPreference).toEqual(prefs);
+       |                                           ^
+     35|   });
+     36| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > initializes form fields with dashboard preferences from store
+AssertionError: expected undefined to be 'http://localhost:8000/storage/initial…' // Object.is equality
+
+- Expected: 
+"http://localhost:8000/storage/initial/bg.webp"
+
++ Received: 
+undefined
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:119:40
+    117|       initialUser.dashboard_preference.accent_color
+    118|     );
+    119|     expect(wrapper.vm.backgroundImage).toBe(
+       |                                        ^
+    120|       `${API_URL}/storage/${initialUser.dashboard_preference.background_image_path}`
+    121|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > uploadBackgroundImage calls api and updates backgroundImage ref
+TypeError: wrapper.vm.uploadBackgroundImage is not a function
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:139:22
+    137| 
+    138|     // Trigger method directly
+    139|     await wrapper.vm.uploadBackgroundImage(uploaderEventData);
+       |                      ^
+    140|     await flushPromises();
+    141| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > removeBackgroundImage sets backgroundImage ref to null
+TypeError: wrapper.vm.removeBackgroundImage is not a function
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:155:22
+    153| 
+    154|   it("removeBackgroundImage sets backgroundImage ref to null", async () => {
+    155|     await wrapper.vm.removeBackgroundImage();
+       |                      ^
+    156|     expect(wrapper.vm.backgroundImage).toBeNull();
+    157|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > saveDashboardPreferences calls store action with correctly formatted payload
+AssertionError: expected "spy" to be called with arguments: [ { accent_color: '#ABCDEF', …(1) } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+-     "accent_color": "#ABCDEF",
+-     "background_image_path": "dashboard_backgrounds/new_image.webp",
++     "accent_color": "ABCDEF",
++     "background_image_path": "initial/bg.webp",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:171:50
+    169| 
+    170|     // Verify that updateDashboardPreferences was called with the expected arguments
+    171|     expect(authStore.updateDashboardPreferences).toHaveBeenCalledWith({
+       |                                                  ^
+    172|       accent_color: "#ABCDEF",
+    173|       background_image_path: imagePath,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  src/views/pages/__tests__/AccountPage.dashboard.spec.js > AccountPage.vue - Dashboard Appearance > saveDashboardPreferences sends null for background_image_path if image is removed
+AssertionError: expected "spy" to be called with arguments: [ { accent_color: '#123456', …(1) } ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    Object {
+-     "accent_color": "#123456",
+-     "background_image_path": null,
++     "accent_color": "123456",
++     "background_image_path": "initial/bg.webp",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/views/pages/__tests__/AccountPage.dashboard.spec.js:184:50
+    182|     await flushPromises();
+    183| 
+    184|     expect(authStore.updateDashboardPreferences).toHaveBeenCalledWith({
+       |                                                  ^
+    185|       accent_color: "#123456",
+    186|       background_image_path: null,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+ Test Files  2 failed (2)
+      Tests  7 failed | 4 passed (11)
+   Start at  21:34:21
+   Duration  1.21s (transform 638ms, setup 78ms, collect 954ms, tests 46ms, environment 560ms, prepare 87ms)
+
+gmaz@GMacBook-Air fe_velvue % npm run lint:check
+
+> velvue@1.0.0 lint:check
+> eslint .
+
+
+/Users/gmaz/Coding/Velvue-Laravel-Vue-SaaS-Starter/fe_velvue/src/views/pages/AccountPage.vue
+  401:19  warning  Attribute ":disabled" should go before "@click"  vue/attributes-order
+  438:17  warning  Attribute 'customUpload' must be hyphenated      vue/attribute-hyphenation
+  440:17  warning  Attribute 'chooseLabel' must be hyphenated       vue/attribute-hyphenation
+
+✖ 3 problems (0 errors, 3 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.
+
+gmaz@GMacBook-Air fe_velvue % npm run format:check
+
+> velvue@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

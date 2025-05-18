@@ -20,6 +20,11 @@ const uploadingImage = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
 
+// Dashboard Appearance settings
+const accentColor = ref("");
+const dashboardBackgroundImage = ref(null);
+const uploadingBackgroundImage = ref(false);
+
 // We assume the user is loaded from the store or from an API
 // onMounted, you can load the user data from the store or an API.
 onMounted(() => {
@@ -27,6 +32,16 @@ onMounted(() => {
     nameField.value = authStore.user.name;
     emailField.value = authStore.user.email;
     profileImage.value = authStore.user.avatar;
+
+    // Load dashboard preferences if available
+    if (authStore.user.dashboard_preference) {
+      accentColor.value =
+        authStore.user.dashboard_preference.accent_color || "";
+
+      if (authStore.user.dashboard_preference.background_image_path) {
+        dashboardBackgroundImage.value = `${import.meta.env.VITE_API_URL}/storage/${authStore.user.dashboard_preference.background_image_path}`;
+      }
+    }
   }
 });
 
@@ -136,6 +151,71 @@ function logout() {
   authStore.logout().then(() => {
     router.push({ name: "login" });
   });
+}
+
+// Dashboard Appearance Functions
+async function uploadDashboardBackground(event) {
+  const file = event.files?.[0];
+  if (!file) {
+    errorMessage.value = "No file selected. Please select an image to upload.";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("entity", "dashboard_backgrounds");
+
+  try {
+    uploadingBackgroundImage.value = true;
+    const response = await api.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.success) {
+      dashboardBackgroundImage.value = `${import.meta.env.VITE_API_URL}/storage/${response.data.path}`;
+      successMessage.value = "Background image uploaded successfully.";
+
+      // Save the preferences with the new background
+      await saveDashboardPreferences(response.data.path);
+    }
+  } catch (err) {
+    errorMessage.value = "Failed to upload background image. Please try again.";
+    console.error(err);
+  } finally {
+    uploadingBackgroundImage.value = false;
+  }
+}
+
+async function saveDashboardPreferences(backgroundImagePath = null) {
+  try {
+    successMessage.value = "";
+    errorMessage.value = "";
+
+    // Get the path part without the API URL prefix if it's a complete URL
+    let backgroundPath = backgroundImagePath;
+    if (!backgroundPath && dashboardBackgroundImage.value) {
+      const apiUrl = import.meta.env.VITE_API_URL + "/storage/";
+      if (dashboardBackgroundImage.value.startsWith(apiUrl)) {
+        backgroundPath = dashboardBackgroundImage.value.replace(apiUrl, "");
+      }
+    }
+
+    await authStore.updateDashboardPreferences({
+      accent_color: accentColor.value || null,
+      background_image_path: backgroundPath,
+    });
+
+    successMessage.value = "Dashboard appearance settings saved successfully.";
+  } catch (err) {
+    errorMessage.value =
+      "Failed to save dashboard preferences. Please try again.";
+    console.error(err);
+  }
+}
+
+function clearDashboardBackground() {
+  dashboardBackgroundImage.value = null;
+  saveDashboardPreferences(null);
 }
 
 /* DataTable filters for placeholders (Activity Log, Payment, Billing).
@@ -300,6 +380,73 @@ const filtersBilling = ref({
           <Column field="date" header="Date" sortable />
           <Column field="status" header="Status" />
         </DataTable>
+      </TabPanel>
+
+      <!-- DASHBOARD APPEARANCE TAB -->
+      <TabPanel header="Dashboard Appearance">
+        <div class="grid grid-cols-12 gap-6 mt-4">
+          <!-- Accent Color Picker -->
+          <div class="col-span-12 md:col-span-6">
+            <h3 class="text-lg font-semibold mb-4">Accent Color</h3>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-medium"
+                >Select a primary color for the application theme</label
+              >
+              <ColorPicker v-model="accentColor" format="hex" />
+              <div class="mt-2 flex gap-2 items-center">
+                <Button
+                  label="Apply Color"
+                  icon="pi pi-check"
+                  @click="saveDashboardPreferences()"
+                  :disabled="!accentColor"
+                />
+                <Button
+                  label="Reset to Default"
+                  icon="pi pi-undo"
+                  severity="secondary"
+                  @click="
+                    accentColor = '';
+                    saveDashboardPreferences();
+                  "
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Background Image -->
+          <div class="col-span-12 md:col-span-6">
+            <h3 class="text-lg font-semibold mb-4">Dashboard Background</h3>
+            <div class="flex flex-col gap-4">
+              <div v-if="dashboardBackgroundImage" class="mb-2">
+                <img
+                  :src="dashboardBackgroundImage"
+                  alt="Dashboard background"
+                  class="w-full max-h-40 object-cover rounded shadow-md"
+                />
+                <Button
+                  icon="pi pi-trash"
+                  label="Remove"
+                  severity="danger"
+                  class="mt-2"
+                  @click="clearDashboardBackground"
+                />
+              </div>
+              <FileUpload
+                mode="basic"
+                auto
+                accept="image/*"
+                customUpload
+                :disabled="uploadingBackgroundImage"
+                chooseLabel="Upload Background Image"
+                @uploader="uploadDashboardBackground"
+              />
+              <small class="text-muted-color">
+                Recommended: Upload high-quality images (1920×1080 or higher)
+                for best results
+              </small>
+            </div>
+          </div>
+        </div>
       </TabPanel>
 
       <!-- DANGER ZONE TAB -->
